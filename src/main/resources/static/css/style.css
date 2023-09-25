@@ -1,0 +1,40 @@
+.new-game-container {
+    display: flex;
+    height: 100vh;
+}
+
+.newGame {
+    margin: auto;
+    font-size: 4rem;
+    padding: 2rem 4rem;
+    border-radius: 2rem;
+}
+
+#newGameModal .modal-dialog {
+    height: 50vh;
+}
+
+#newGameModal .input-group {
+    /*width: 80%;*/
+    margin: auto;
+}
+
+#newGameModal .form-control {
+    max-width: fit-content;
+}
+
+
+@media (min-width: 576px) {
+    #newGameModal * {
+        font-size: 2.5rem;
+    }
+
+    #newGameModalLabel {
+        font-size: 1.5rem;
+    }
+
+    #newGameModal .modal-dialog{
+        max-width: 80%;
+    }
+
+}

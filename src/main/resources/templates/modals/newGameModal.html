@@ -1,0 +1,25 @@
+<div xmlns:th="http://www.thymeleaf.org" th:fragment="newGameModal"
+     class="modal fade" id="newGameModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title" id="newGameModalLabel">
+                    Add/ Remove Players
+                </h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form id="playerForm" method="POST">
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary rounded-4" data-bs-dismiss="modal">
+                    Cancel
+                </button>
+                <button id="startGame" type="submit" form="playerForm" class="btn btn-primary rounded-4 ms-3">
+                    Start Game
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
