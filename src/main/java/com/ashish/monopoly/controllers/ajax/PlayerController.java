@@ -1,10 +1,8 @@
 package com.ashish.monopoly.controllers.ajax;
 
 import com.ashish.monopoly.model.Player;
-import com.ashish.monopoly.repository.PlayerRepository;
 import com.ashish.monopoly.service.PlayerService;
 import jakarta.annotation.Resource;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

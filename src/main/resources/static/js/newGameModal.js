@@ -20,7 +20,6 @@ const setGameName = () => {
 const newGameModal = () => {
     let appendTarget = $("#newGameModal .modal-body #playerForm");
     $(appendTarget).children().remove();
-    $(appendTarget).append(`<input id="game" name="game" type="hidden" value="0">`);
     $.get({
         url: "/player/all",
         success: function (result) {
@@ -47,7 +46,8 @@ const addPlayer = (appendTarget, idx, {id, name}) => {
 }
 
 const addPlayerHTML = (event) => {
-    addPlayer($(event.currentTarget).parents("#playerForm"), 0, {id: 0, name: ''})
+    let playerCount = $(event.currentTarget).parents("#playerForm").children().length;
+    addPlayer($(event.currentTarget).parents("#playerForm"), playerCount, {id: 0, name: ''})
 }
 
 const deletePlayer = (event) => {
@@ -88,14 +88,15 @@ const serializeGameData = () => {
 const startGame = (event) => {
     event.preventDefault();
     players.length = 0;
-    // game.gamePlayers.length = 0;
-    // setGameName();
     serializeGameData();
-    console.log(players);
     $.ajax({
-        method: "PUT",
-        url: "/game/add",
-        data: JSON.stringify(players),
-        contentType: "application/json"
-    })
+            method: "PUT",
+            url: "/game/add",
+            data: JSON.stringify(players),
+            contentType: "application/json",
+            success: function (result) {
+                console.log(result);
+            }
+        }
+    )
 }

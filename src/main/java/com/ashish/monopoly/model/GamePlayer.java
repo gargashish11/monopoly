@@ -5,13 +5,11 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 
 @Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString(callSuper = true, onlyExplicitlyIncluded = true, includeFieldNames = false)
 @Table(name = "game_player")
 public class GamePlayer extends AbstractEntity {
 
@@ -31,7 +29,8 @@ public class GamePlayer extends AbstractEntity {
     public String toString() {
         return "GamePlayer{" +
                 "id=" + this.getId() +
-                ", game=" + game.getId() +
+                ", game=" + game +
+                ", player=" + player +
                 ", balance=" + balance +
                 '}';
     }

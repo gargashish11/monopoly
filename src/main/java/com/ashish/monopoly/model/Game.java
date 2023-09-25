@@ -2,13 +2,14 @@ package com.ashish.monopoly.model;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.annotation.Nonnull;
-import jakarta.persistence.*;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Entity;
+import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.HashSet;
-import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -56,16 +57,6 @@ public class Game extends AbstractEntity {
                 "name='" + name + '\'' +
                 ", gamePlayers=" + gamePlayers +
                 '}';
-    }
-
-    @PreUpdate
-    @PrePersist
-    public void prePersist() {
-        for (GamePlayer gamePlayer : this.gamePlayers) {
-            if (Objects.isNull(gamePlayer.getGame())) {
-                gamePlayer.setGame(this);
-            }
-        }
     }
 }
 

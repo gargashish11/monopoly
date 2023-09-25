@@ -13,7 +13,7 @@ $(document).ready(function () {
     `);
 
     const updateInput = (event) => {
-        players.length=0;
+        players.length = 0;
         serializeGameData();
     };
 
@@ -21,5 +21,5 @@ $(document).ready(function () {
     $(document).on('click', ".playerAdd", addPlayerHTML);
     $(document).on('click', ".playerRemove", deletePlayer);
     $(document).on('click', "#startGame", startGame);
-    $(document).on('change','input', updateInput);
+    $(document).on('change', 'input', updateInput);
 })

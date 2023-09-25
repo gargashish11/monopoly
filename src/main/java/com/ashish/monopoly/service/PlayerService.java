@@ -9,5 +9,6 @@ public interface PlayerService {
     Player save(Player player);
 
     List<Player> findAll();
+
     Boolean deleteById(Integer id);
 }
