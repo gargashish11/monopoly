@@ -1,27 +1,9 @@
-let game = {
-    "name": "new",
-    "gamePlayers": [],
-    "transactions": []
-};
-
-let newGame = {
-    "name": "new",
-    "gamePlayers": [
-        {
-            "id": 1,
-            "balance": 1500
-        },
-        {
-            "id": 2,
-            "balance": 1500
-        },
-        {
-            "id": 3,
-            "balance": 1500
-        }
-    ],
-    "transactions": []
-}
+let players = [
+    {
+        "id": 1,
+        "name": "Ashish"
+    }
+]
 const setGameName = () => {
     const now = new Date();
 
@@ -32,7 +14,7 @@ const setGameName = () => {
     const minute = String(now.getMinutes()).padStart(2, '0');
     const separator = '_';
 
-    game.name = `${year}${separator}${month}${separator}${day}${separator}${hour}${separator}${minute}`;
+    gameLabel = `${year}${separator}${month}${separator}${day}${separator}${hour}${separator}${minute}`;
 }
 
 const newGameModal = () => {
@@ -49,7 +31,7 @@ const newGameModal = () => {
     })
 }
 
-const addPlayer = (appendTarget, idx, {id, name, balance}) => {
+const addPlayer = (appendTarget, idx, {id, name}) => {
     let playerMarkup = `
 <div class="input-group playerData">
     <div class="text-success me-2 playerAdd">
@@ -57,7 +39,6 @@ const addPlayer = (appendTarget, idx, {id, name, balance}) => {
     </div>
     <input id="player[${idx}].id" class="hiddenId" type="hidden" value="${id}"/>
     <input id="player[${idx}].name" class="form-control" type="text" value="${name}"/>
-    <input id="player[${idx}].balance" class="form-control" type="number" value="${balance}"/>
     <div class="text-danger ms-2 playerRemove">
         <i class="fa-solid fa-circle-minus"></i>
     </div>
@@ -66,7 +47,7 @@ const addPlayer = (appendTarget, idx, {id, name, balance}) => {
 }
 
 const addPlayerHTML = (event) => {
-    addPlayer($(event.currentTarget).parents("#playerForm"), 0, {id: 0, name: '', balance: 0})
+    addPlayer($(event.currentTarget).parents("#playerForm"), 0, {id: 0, name: ''})
 }
 
 const deletePlayer = (event) => {
@@ -97,24 +78,24 @@ const serializeGameData = () => {
     playerInputs.each(function (index) {
         const id = $(`input[id^="player[${index}].id"]`).val();
         const name = $(`input[id^="player[${index}].name"]`).val();
-        const balance = $(`input[id^="player[${index}].balance"]`).val();
-        game.gamePlayers.push({
+        players.push({
             "id": parseInt(id),
-            "balance": 3000
+            "name": name
         });
     });
 }
 
 const startGame = (event) => {
     event.preventDefault();
-    game.gamePlayers.length = 0;
-    setGameName();
+    players.length = 0;
+    // game.gamePlayers.length = 0;
+    // setGameName();
     serializeGameData();
-    console.log(game);
+    console.log(players);
     $.ajax({
         method: "PUT",
         url: "/game/add",
-        data: JSON.stringify(game),
+        data: JSON.stringify(players),
         contentType: "application/json"
     })
 }

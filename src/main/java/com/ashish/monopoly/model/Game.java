@@ -21,10 +21,10 @@ public class Game extends AbstractEntity {
     private String name;
 
     @JsonManagedReference(value = "game")
-    @OneToMany(mappedBy = "game", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
+    @OneToMany(mappedBy = "game", cascade = CascadeType.PERSIST)
     private Set<GamePlayer> gamePlayers = new HashSet<>();
 
-    @OneToMany(mappedBy = "game", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
+    @OneToMany(mappedBy = "game", cascade = CascadeType.PERSIST)
     private Set<Transaction> transactions = new HashSet<>();
 
     public void addGamePlayer(GamePlayer gamePlayer) {
@@ -61,7 +61,6 @@ public class Game extends AbstractEntity {
     @PreUpdate
     @PrePersist
     public void prePersist() {
-
         for (GamePlayer gamePlayer : this.gamePlayers) {
             if (Objects.isNull(gamePlayer.getGame())) {
                 gamePlayer.setGame(this);

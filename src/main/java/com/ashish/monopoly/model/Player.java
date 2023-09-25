@@ -6,6 +6,7 @@ import jakarta.annotation.Nonnull;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
@@ -20,8 +21,8 @@ public class Player extends AbstractEntity {
     private String name;
 
     @JsonManagedReference(value = "player")
-    @OneToMany(mappedBy = "player", cascade = CascadeType.ALL)
-    private Set<GamePlayer> gamePlayers;
+    @OneToMany(mappedBy = "player", cascade = CascadeType.PERSIST)
+    private Set<GamePlayer> gamePlayers = new HashSet<>();
 
     public void addGamePlayer(GamePlayer gamePlayer) {
         gamePlayers.add(gamePlayer);

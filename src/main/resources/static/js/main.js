@@ -13,7 +13,7 @@ $(document).ready(function () {
     `);
 
     const updateInput = (event) => {
-        game.gamePlayers.length=0;
+        players.length=0;
         serializeGameData();
     };
 

@@ -16,12 +16,12 @@ import lombok.ToString;
 public class GamePlayer extends AbstractEntity {
 
     @JsonBackReference(value = "game")
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "game_id")
     private Game game;
 
     @JsonBackReference(value = "player")
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "player_id")
     private Player player;
 
