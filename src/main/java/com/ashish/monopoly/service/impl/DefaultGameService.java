@@ -11,6 +11,8 @@ import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -31,18 +33,21 @@ public class DefaultGameService implements GameService {
     private GamePlayerRepository gamePlayerRepository;
 
     @Override
-    public Game save(Set<Player> players) {
+    public Game save(Game game) {
+        return gameRepository.save(game);
+    }
+    @Override
+    public Game createGame(Set<Player> players) {
         Game game = new Game();
-        game.setName("New Game");
+        game.setName(generateName());
         players.forEach(player -> {
             Player savedPlayer = playerService.save(player);
             GamePlayer gamePlayer = new GamePlayer();
-            gamePlayer.setGame(game);
             gamePlayer.setPlayer(savedPlayer);
             gamePlayer.setBalance(INITIAL_BALANCE);
-            gamePlayerRepository.save(gamePlayer);
+            game.addGamePlayer(gamePlayer);
         });
-        return game;
+        return gameRepository.save(game);
     }
 
     @Override
@@ -54,4 +59,24 @@ public class DefaultGameService implements GameService {
     public List<Game> findAll() {
         return gameRepository.findAll();
     }
+
+    private String generateName() {
+        LocalDateTime currentDateTime = LocalDateTime.now();
+
+        // Define a custom format pattern and separators
+        String customFormat = "yyyy_MM_dd_HH_mm_ss";
+
+        // Create a DateTimeFormatter with the custom format
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(customFormat);
+
+        // Format the LocalDateTime object using the formatter
+        String formattedDateTime = currentDateTime.format(formatter);
+
+        // Replace default separators with custom separators
+        return formattedDateTime;
+    }
 }
+
+
+
+

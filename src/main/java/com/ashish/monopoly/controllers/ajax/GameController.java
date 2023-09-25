@@ -7,6 +7,7 @@ import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 @RestController
@@ -27,9 +28,14 @@ public class GameController {
         return gameService.findById(id).get();
     }
 
-    @PutMapping(value = "/add")
-    public Game add(@RequestBody Set<Player> players) {
-        return gameService.save(players);
+    @PostMapping(value = "/new")
+    public Game createGame(@RequestBody Set<Player> players) {
+        return gameService.createGame(players);
+    }
+
+    @PutMapping(value = "/save")
+    public Game save(@RequestBody Game game) {
+        return gameService.save(game);
     }
 
 }

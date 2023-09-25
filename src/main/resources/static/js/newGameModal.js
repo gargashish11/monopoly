@@ -90,10 +90,11 @@ const startGame = (event) => {
     players.length = 0;
     serializeGameData();
     $.ajax({
-            method: "PUT",
-            url: "/game/add",
+            method: "POST",
+            url: "/game/new",
             data: JSON.stringify(players),
             contentType: "application/json",
+            dataType: "json",
             success: function (result) {
                 console.log(result);
             }

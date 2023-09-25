@@ -14,12 +14,12 @@ import lombok.NoArgsConstructor;
 public class GamePlayer extends AbstractEntity {
 
     @JsonBackReference(value = "game")
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "game_id")
     private Game game;
 
     @JsonBackReference(value = "player")
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "player_id")
     private Player player;
 

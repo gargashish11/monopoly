@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.annotation.Nonnull;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -22,10 +23,10 @@ public class Game extends AbstractEntity {
     private String name;
 
     @JsonManagedReference(value = "game")
-    @OneToMany(mappedBy = "game", cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "game", cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
     private Set<GamePlayer> gamePlayers = new HashSet<>();
 
-    @OneToMany(mappedBy = "game", cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "game", cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
     private Set<Transaction> transactions = new HashSet<>();
 
     public void addGamePlayer(GamePlayer gamePlayer) {

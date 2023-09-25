@@ -8,7 +8,9 @@ import java.util.Optional;
 import java.util.Set;
 
 public interface GameService {
-    Game save(Set<Player> players);
+
+    Game save(Game game);
+    Game createGame(Set<Player> players);
 
     Optional<Game> findById(Integer id);
 
