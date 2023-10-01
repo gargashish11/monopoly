@@ -1,12 +1,12 @@
 package com.ashish.monopoly.model;
 
+import com.fasterxml.jackson.annotation.JsonIncludeProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.annotation.Nonnull;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 
 import java.util.HashSet;
 import java.util.Objects;
@@ -16,7 +16,7 @@ import java.util.Set;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString(callSuper = true, onlyExplicitlyIncluded = true, includeFieldNames = false)
+@JsonIncludeProperties({"name"})
 public class Player extends AbstractEntity {
 
     @Nonnull
@@ -25,6 +25,14 @@ public class Player extends AbstractEntity {
     @JsonManagedReference(value = "player")
     @OneToMany(mappedBy = "player", cascade = CascadeType.PERSIST)
     private Set<GamePlayer> gamePlayers = new HashSet<>();
+
+    @JsonManagedReference(value = "payer")
+    @OneToMany(mappedBy = "payer", cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
+    private Set<Transaction> paid = new HashSet<>();
+
+    @JsonManagedReference(value = "payee")
+    @OneToMany(mappedBy = "payee", cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
+    private Set<Transaction> received = new HashSet<>();
 
     public void addGamePlayer(GamePlayer gamePlayer) {
         gamePlayers.add(gamePlayer);
@@ -36,12 +44,43 @@ public class Player extends AbstractEntity {
         gamePlayer.setPlayer(null);
     }
 
+    public void addPaid(Transaction transaction) {
+        paid.add(transaction);
+        transaction.setPayer(this);
+    }
+
+    public void removePaid(Transaction transaction) {
+        paid.remove(transaction);
+        transaction.setPayer(null);
+    }
+
+    public void addReceived(Transaction transaction) {
+        received.add(transaction);
+        transaction.setPayee(this);
+    }
+
+    public void removeReceived(Transaction transaction) {
+        received.remove(transaction);
+        transaction.setPayee(null);
+    }
+
     @PreUpdate
     @PrePersist
     public void prePersist() {
         for (GamePlayer gamePlayer : this.gamePlayers) {
             if (Objects.isNull(gamePlayer.getPlayer())) {
                 gamePlayer.setPlayer(this);
+            }
+        }
+
+        for(Transaction payer : this.paid) {
+            if(Objects.isNull(payer.getPayer())) {
+                payer.setPayer(this);
+            }
+        }
+        for(Transaction payee : this.paid) {
+            if(Objects.isNull(payee.getPayee())) {
+                payee.setPayee(this);
             }
         }
     }
@@ -56,6 +95,14 @@ public class Player extends AbstractEntity {
     @Override
     public int hashCode() {
         return getClass().hashCode();
+    }
+
+    @Override
+    public String toString() {
+        return "Game{" +
+                "id=" + this.getId() +
+                "name='" + name + "'" +
+                '}';
     }
 
 }

@@ -1,9 +1,15 @@
 package com.ashish.monopoly.controllers.ajax;
 
+import com.ashish.monopoly.data.GameData;
+import com.ashish.monopoly.facade.GameFacade;
 import com.ashish.monopoly.model.Game;
 import com.ashish.monopoly.model.Player;
+import com.ashish.monopoly.repository.GamePlayerRepository;
+import com.ashish.monopoly.repository.PlayerRepository;
+import com.ashish.monopoly.repository.TransactionRepository;
 import com.ashish.monopoly.service.GameService;
 import jakarta.annotation.Resource;
+import org.springframework.core.convert.ConversionService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,27 +21,22 @@ import java.util.Set;
 public class GameController {
 
     @Resource
-    private GameService gameService;
-
-
-    @GetMapping("/all")
-    public List<Game> newGame() {
-        return  gameService.findAll();
-    }
+    private GameFacade gameFacade;
 
     @GetMapping("/{id}")
-    public Game getGame(@PathVariable Integer id) {
-        return gameService.findById(id).get();
+    public GameData getGame(@PathVariable Integer id) {
+        GameData gameData = gameFacade.getGameData(id);
+        return gameFacade.getGameData(id);
     }
 
     @PostMapping(value = "/new")
-    public Game createGame(@RequestBody Set<Player> players) {
-        return gameService.createGame(players);
+    public GameData createGame(@RequestBody Set<Player> players) {
+        return gameFacade.createGame(players);
     }
 
     @PutMapping(value = "/save")
-    public Game save(@RequestBody Game game) {
-        return gameService.save(game);
+    public GameData save(@RequestBody GameData gameData) {
+        return gameFacade.save(gameData);
     }
 
 }

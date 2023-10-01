@@ -3,7 +3,6 @@ package com.ashish.monopoly.service.impl;
 import com.ashish.monopoly.model.Game;
 import com.ashish.monopoly.model.GamePlayer;
 import com.ashish.monopoly.model.Player;
-import com.ashish.monopoly.repository.GamePlayerRepository;
 import com.ashish.monopoly.repository.GameRepository;
 import com.ashish.monopoly.service.GameService;
 import com.ashish.monopoly.service.PlayerService;
@@ -29,8 +28,6 @@ public class DefaultGameService implements GameService {
     @Resource
     private PlayerService playerService;
 
-    @Resource
-    private GamePlayerRepository gamePlayerRepository;
 
     @Override
     public Game save(Game game) {

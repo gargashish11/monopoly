@@ -4,9 +4,9 @@ $(document).ready(function () {
 
     $("#root").append(`
     <div class="container new-game-container">
-        <button class="btn btn-primary newGame"
-                data-bs-toggle="modal"
-                data-bs-target="#newGameModal">
+        <button class="btn btn-primary newGame">
+<!--                data-bs-toggle="modal"-->
+<!--                data-bs-target="#newGameModal">-->
             New Game
         </button>
     </div>
@@ -17,7 +17,8 @@ $(document).ready(function () {
         serializeGameData();
     };
 
-    $(document).on('click', ".newGame", newGameModal);
+    // $(document).on('click', ".newGame", newGameModal);
+    $(document).on('click', ".newGame", showGameState);
     $(document).on('click', ".playerAdd", addPlayerHTML);
     $(document).on('click', ".playerRemove", deletePlayer);
     $(document).on('click', "#startGame", startGame);

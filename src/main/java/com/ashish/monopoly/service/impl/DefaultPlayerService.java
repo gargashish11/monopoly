@@ -7,6 +7,7 @@ import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class DefaultPlayerService implements PlayerService {
@@ -32,5 +33,10 @@ public class DefaultPlayerService implements PlayerService {
         } catch (Exception e) {
             return Boolean.FALSE;
         }
+    }
+
+    @Override
+    public Player findById(Integer id) {
+        return playerRepository.findById(id).orElse(null);
     }
 }

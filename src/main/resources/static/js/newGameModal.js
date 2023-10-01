@@ -1,23 +1,10 @@
-let players = [
-    {
-        "id": 1,
-        "name": "Ashish"
-    }
-]
-const setGameName = () => {
-    const now = new Date();
-
-    const year = now.getFullYear();
-    const month = String(now.getMonth() + 1).padStart(2, '0'); // Month is zero-based
-    const day = String(now.getDate()).padStart(2, '0');
-    const hour = String(now.getHours()).padStart(2, '0');
-    const minute = String(now.getMinutes()).padStart(2, '0');
-    const separator = '_';
-
-    gameLabel = `${year}${separator}${month}${separator}${day}${separator}${hour}${separator}${minute}`;
-}
+let players = [{}]
+let newGameModalObject = null;
+let gameDataReceived = null;
 
 const newGameModal = () => {
+    newGameModalObject = bootstrap.Modal.getInstance($("#newGameModal"));
+    newGameModalObject.hide();
     let appendTarget = $("#newGameModal .modal-body #playerForm");
     $(appendTarget).children().remove();
     $.get({
@@ -96,7 +83,9 @@ const startGame = (event) => {
             contentType: "application/json",
             dataType: "json",
             success: function (result) {
-                console.log(result);
+                gameDataReceived = result;
+                newGameModalObject.hide();
+                showGameState();
             }
         }
     )

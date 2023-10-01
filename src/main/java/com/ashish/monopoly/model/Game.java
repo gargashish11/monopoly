@@ -2,15 +2,13 @@ package com.ashish.monopoly.model;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.annotation.Nonnull;
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -26,6 +24,7 @@ public class Game extends AbstractEntity {
     @OneToMany(mappedBy = "game", cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
     private Set<GamePlayer> gamePlayers = new HashSet<>();
 
+    @JsonManagedReference(value = "transactions")
     @OneToMany(mappedBy = "game", cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
     private Set<Transaction> transactions = new HashSet<>();
 
@@ -37,6 +36,33 @@ public class Game extends AbstractEntity {
     public void removeGamePlayer(GamePlayer gamePlayer) {
         gamePlayers.remove(gamePlayer);
         gamePlayer.setGame(null);
+    }
+
+    public void addTransaction(Transaction transaction) {
+        transactions.add(transaction);
+        transaction.setGame(this);
+    }
+
+    public void removeTransaction(Transaction transaction) {
+        transactions.remove(transaction);
+        transaction.setGame(null);
+    }
+
+    @PreUpdate
+    @PrePersist
+    public void prePersist() {
+        for (GamePlayer gamePlayer : this.gamePlayers) {
+            if (Objects.isNull(gamePlayer.getPlayer())) {
+                gamePlayer.setGame(this);
+            }
+        }
+
+        for (Transaction txn : this.transactions) {
+            if (Objects.isNull(txn.getGame())) {
+                txn.setGame(this);
+            }
+        }
+
     }
 
     @Override
@@ -55,8 +81,7 @@ public class Game extends AbstractEntity {
     public String toString() {
         return "Game{" +
                 "id=" + this.getId() +
-                "name='" + name + '\'' +
-                ", gamePlayers=" + gamePlayers +
+                "name='" + name + "'" +
                 '}';
     }
 }

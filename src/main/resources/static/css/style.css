@@ -1,40 +1,104 @@
 .new-game-container {
-    display: flex;
-    height: 100vh;
+  display: flex;
+  height: 100vh;
 }
 
 .newGame {
-    margin: auto;
-    font-size: 4rem;
-    padding: 2rem 4rem;
-    border-radius: 2rem;
+  margin: auto;
+  font-size: 4rem;
+  padding: 2rem 4rem;
+  border-radius: 2rem;
 }
 
 #newGameModal .modal-dialog {
-    height: 50vh;
+  height: 50vh;
 }
 
 #newGameModal .input-group {
-    /*width: 80%;*/
-    margin: auto;
+  /*width: 80%;*/
+  margin: auto;
 }
 
 #newGameModal .form-control {
-    max-width: fit-content;
+  max-width: -moz-fit-content;
+  max-width: fit-content;
 }
 
+#root .navbar {
+  backdrop-filter: blur(4rem);
+}
 
-@media (min-width: 576px) {
-    #newGameModal * {
-        font-size: 2.5rem;
-    }
+.playerBalanceGroup {
+  margin-top: 1rem;
+  z-index: 2000;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 1rem;
+  width: 100%;
+}
 
-    #newGameModalLabel {
-        font-size: 1.5rem;
-    }
+.playerBalance {
+  padding: 1rem 2rem;
+  font-size: 1rem;
+  flex-grow: 1;
+}
 
-    /*#newGameModal .modal-dialog{*/
-    /*    max-width: 80%;*/
-    /*}*/
+.txn {
+  display: flex;
+  justify-content: space-between;
+  padding: 1rem 2rem;
+  font-size: 1rem;
+  gap: 4rem;
+}
+
+@media (max-width: 992px) {
+  #newGameModal * {
+    font-size: 2.5rem;
+  }
+
+  #newGameModalLabel {
+    font-size: 1.5rem;
+  }
+
+  #gameName * {
+    font-size: 2.5rem;
+    margin-top: 1rem;
+  }
+
+  #gameName .input-group-text {
+    border-color: black;
+    padding-right: 3rem;
+    padding-left: 3rem;
+  }
+
+  #gameName .form-control {
+    border-color: black;
+  }
+
+  .playerBalanceGroup {
+    margin-top: 1rem;
+    z-index: 2000;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+
+  .playerBalance {
+    padding: 1rem 3rem;
+    font-size: 3rem;
+  }
+
+  .txn {
+    display: flex;
+    justify-content: space-between;
+    padding: 1rem 3rem;
+    font-size: 3rem;
+    gap: 8rem;
+  }
+
 
 }
+
+/*# sourceMappingURL=style.css.map */
