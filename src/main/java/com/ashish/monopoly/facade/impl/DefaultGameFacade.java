@@ -1,11 +1,13 @@
 package com.ashish.monopoly.facade.impl;
 
+import com.ashish.monopoly.converter.Converters;
 import com.ashish.monopoly.converter.GameConverter;
 import com.ashish.monopoly.converter.reverse.GameReverseConverter;
 import com.ashish.monopoly.data.GameData;
 import com.ashish.monopoly.facade.GameFacade;
 import com.ashish.monopoly.model.Game;
 import com.ashish.monopoly.model.Player;
+import com.ashish.monopoly.repository.GameProjection;
 import com.ashish.monopoly.service.GameService;
 import com.ashish.monopoly.service.PlayerService;
 import com.ashish.monopoly.service.TransactionService;
@@ -14,6 +16,7 @@ import org.springframework.core.convert.ConversionException;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Set;
 
 @Service
@@ -27,6 +30,11 @@ public class DefaultGameFacade implements GameFacade {
     @Resource
     private GameReverseConverter gameReverseConverter;
 
+
+    @Override
+    public Set<Integer> getAllIds() {
+        return gameService.getAllIds();
+    }
 
     @Override
     public GameData save(GameData gameData) {
@@ -56,5 +64,15 @@ public class DefaultGameFacade implements GameFacade {
         } catch (ConversionException | IllegalArgumentException iae) {
             return null;
         }
+    }
+
+    @Override
+    public Set<GameData> findAll() {
+        return Converters.convertAll(gameService.findAll(),gameConverter);
+    }
+
+    @Override
+    public Set<GameProjection> findAllProjectedByIdNotNull() {
+        return gameService.findAllProjectedByIdNotNull();
     }
 }

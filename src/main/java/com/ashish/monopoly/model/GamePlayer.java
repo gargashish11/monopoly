@@ -2,6 +2,7 @@ package com.ashish.monopoly.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.PositiveOrZero;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,15 +15,16 @@ import lombok.NoArgsConstructor;
 public class GamePlayer extends AbstractEntity {
 
     @JsonBackReference(value = "game")
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+    @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE})
     @JoinColumn(name = "game_id")
     private Game game;
 
     @JsonBackReference(value = "player")
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+    @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE})
     @JoinColumn(name = "player_id")
     private Player player;
 
+    @PositiveOrZero
     private Integer balance;
 
     @Override

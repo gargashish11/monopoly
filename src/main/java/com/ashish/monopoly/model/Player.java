@@ -16,22 +16,21 @@ import java.util.Set;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@JsonIncludeProperties({"name"})
 public class Player extends AbstractEntity {
 
     @Nonnull
     private String name;
 
     @JsonManagedReference(value = "player")
-    @OneToMany(mappedBy = "player", cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "player", cascade = {CascadeType.DETACH, CascadeType.MERGE})
     private Set<GamePlayer> gamePlayers = new HashSet<>();
 
     @JsonManagedReference(value = "payer")
-    @OneToMany(mappedBy = "payer", cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "payer", cascade = {CascadeType.DETACH, CascadeType.MERGE})
     private Set<Transaction> paid = new HashSet<>();
 
     @JsonManagedReference(value = "payee")
-    @OneToMany(mappedBy = "payee", cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "payee", cascade = {CascadeType.DETACH, CascadeType.MERGE})
     private Set<Transaction> received = new HashSet<>();
 
     public void addGamePlayer(GamePlayer gamePlayer) {

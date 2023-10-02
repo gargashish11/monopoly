@@ -18,6 +18,8 @@ public class GamePlayerConverter implements Converter<GamePlayer, GamePlayerData
         gamePlayerData.setId(gamePlayer.getId());
 
         gamePlayerData.setGame_id(gamePlayer.getGame().getId());
+        gamePlayerData.setGame_name(gamePlayer.getGame().getName());
+
         gamePlayerData.setPlayer_id(player.getId());
         gamePlayerData.setPlayer_name(player.getName());
 

@@ -3,10 +3,12 @@ package com.ashish.monopoly.service.impl;
 import com.ashish.monopoly.model.Game;
 import com.ashish.monopoly.model.GamePlayer;
 import com.ashish.monopoly.model.Player;
+import com.ashish.monopoly.repository.GameProjection;
 import com.ashish.monopoly.repository.GameRepository;
 import com.ashish.monopoly.service.GameService;
 import com.ashish.monopoly.service.PlayerService;
 import jakarta.annotation.Resource;
+import jakarta.persistence.EntityManager;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -28,6 +30,14 @@ public class DefaultGameService implements GameService {
     @Resource
     private PlayerService playerService;
 
+    @Resource
+    private EntityManager entityManager;
+
+
+    @Override
+    public Set<Integer> getAllIds() {
+        return gameRepository.getAllIds();
+    }
 
     @Override
     public Game save(Game game) {
@@ -55,6 +65,11 @@ public class DefaultGameService implements GameService {
     @Override
     public List<Game> findAll() {
         return gameRepository.findAll();
+    }
+
+    @Override
+    public Set<GameProjection> findAllProjectedByIdNotNull() {
+        return gameRepository.findAllProjectedByIdNotNull();
     }
 
     private String generateName() {

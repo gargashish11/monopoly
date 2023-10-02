@@ -1,0 +1,60 @@
+### Save Game
+PUT {{url}}/game/save
+Content-Type: application/json
+{
+    "id": 1,
+    "name": "new",
+    "gamePlayers": [
+        {
+            "id": 2,
+            "game_id": 1,
+            "player_id": 2,
+            "player_name": "Papa",
+            "balance": 3000
+        },
+        {
+            "id": 4,
+            "game_id": 1,
+            "player_id": 4,
+            "player_name": "Richa",
+            "balance": 1500
+        },
+        {
+            "id": 1,
+            "game_id": 1,
+            "player_id": 1,
+            "player_name": "Ashish",
+            "balance": 3000
+        },
+        {
+            "id": 3,
+            "game_id": 1,
+            "player_id": 3,
+            "player_name": "Bank",
+            "balance": 3000
+        }
+    ],
+    "transactions": [
+        {
+            "id": 1,
+            "game_id": 1,
+            "payer_id": 2,
+            "payer_name": "Papa",
+            "payee_id": 1,
+            "payee_name": "Ashish",
+            "amount": 1500
+        }
+    ]
+}
+
+### New Transaction
+PUT {{url}}/transaction/add
+Content-Type: application/json
+{
+    "game_id": 1,
+    "payer_id": 1,
+    "payer_name": "Ashish",
+    "payee_id": 2,
+    "payee_name": "Papa",
+    "amount": 100
+}

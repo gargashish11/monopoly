@@ -29,6 +29,7 @@ public class TransactionConverter implements Converter<Transaction, TransactionD
         transactionData.setPayee_name(payee.getName());
 
         transactionData.setAmount(transaction.getAmount());
+        transactionData.setIsSuccess(transaction.getIsSuccess());
         return transactionData;
     }
 }

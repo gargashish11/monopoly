@@ -13,24 +13,14 @@ import org.springframework.util.CollectionUtils;
 public class GameReverseConverter implements Converter<GameData, Game> {
 
     @Resource
-    private GameService gameService;
-    @Resource
     private GamePlayerReverseConverter gamePlayerReverseConverter;
-
-    @Resource
-    private TransactionReverseConverter transactionReverseConverter;
 
     @Override
     public Game convert(GameData gameData) {
-        Game game = gameService.findById(gameData.getId()).orElse(null);
-        if (game != null) {
-            if (!CollectionUtils.isEmpty(gameData.getGamePlayers())) {
-                game.setGamePlayers(Converters.convertAll(gameData.getGamePlayers(), gamePlayerReverseConverter));
-            }
-
-            if (!CollectionUtils.isEmpty(gameData.getTransactions())) {
-                game.setTransactions(Converters.convertAll(gameData.getTransactions(), transactionReverseConverter));
-            }
+        Game game = new Game();
+        game.setId(gameData.getId());
+        if (!CollectionUtils.isEmpty(gameData.getGamePlayers())) {
+            game.setGamePlayers(Converters.convertAll(gameData.getGamePlayers(), gamePlayerReverseConverter));
         }
         return game;
     }

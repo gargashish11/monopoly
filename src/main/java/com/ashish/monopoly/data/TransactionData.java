@@ -19,4 +19,6 @@ public class TransactionData {
 
     private Integer amount;
 
+    private Boolean isSuccess;
+
 }

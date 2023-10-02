@@ -21,11 +21,11 @@ public class Game extends AbstractEntity {
     private String name;
 
     @JsonManagedReference(value = "game")
-    @OneToMany(mappedBy = "game", cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "game", cascade = {CascadeType.DETACH, CascadeType.MERGE})
     private Set<GamePlayer> gamePlayers = new HashSet<>();
 
     @JsonManagedReference(value = "transactions")
-    @OneToMany(mappedBy = "game", cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "game", cascade = {CascadeType.DETACH, CascadeType.MERGE})
     private Set<Transaction> transactions = new HashSet<>();
 
     public void addGamePlayer(GamePlayer gamePlayer) {

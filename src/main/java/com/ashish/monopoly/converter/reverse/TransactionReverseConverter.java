@@ -13,40 +13,36 @@ import org.springframework.stereotype.Component;
 @Component
 public class TransactionReverseConverter implements Converter<TransactionData, Transaction> {
 
-    @Resource
-    private GameService gameService;
-
-    @Resource
-    private PlayerService playerService;
-
-
     @Override
     public Transaction convert(TransactionData transactionData) {
         Transaction transaction = new Transaction();
+        if (transactionData.getId() != null) {
+            transaction.setId(transactionData.getId());
+            transaction.setIsSuccess(transactionData.getIsSuccess());
+        }
+        transaction.setIsSuccess(Boolean.FALSE);
+        transaction.setAmount(transactionData.getAmount());
 
         //set Game
-        Game game = gameService.findById(transactionData.getGame_id()).orElse(null);
-        if (game != null) {
-            //get payer
-            Player payer = playerService.findById(transactionData.getPayer_id());
-            payer.setName(transactionData.getPayer_name());
+        Game game = new Game();
+        game.setId(transactionData.getGame_id());
 
-            //get payee
-            Player payee = playerService.findById(transactionData.getPayee_id());
-            payee.setName(transactionData.getPayee_name());
+        //set payer
+        Player payer = new Player();
+        payer.setId(transactionData.getPayer_id());
+        payer.setName(transactionData.getPayer_name());
 
-            //finally create transaction
-//            transaction.setGame(game);
-            transaction.setPayer(payer);
-            transaction.setPayee(payee);
-            transaction.setAmount(transactionData.getAmount());
-//            game.addTransaction(transaction);
+        //set payee
+        Player payee = new Player();
+        payee.setId(transactionData.getPayee_id());
+        payee.setName(transactionData.getPayee_name());
 
-            //set id only if an old transaction
-            if (transactionData.getId() != null) {
-                transaction.setId(transactionData.getId());
-            }
-        }
+        //finally create transaction
+        transaction.setPayer(payer);
+        transaction.setPayee(payee);
+        transaction.setGame(game);
+
+        //set id only if an old transaction
         return transaction;
     }
 }

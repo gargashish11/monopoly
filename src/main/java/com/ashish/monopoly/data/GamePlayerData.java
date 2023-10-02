@@ -9,6 +9,8 @@ public class GamePlayerData {
 
     private Integer game_id;
 
+    private String game_name;
+
     private Integer player_id;
 
     private String player_name;
