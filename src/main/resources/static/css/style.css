@@ -23,11 +23,15 @@
 
 #newGameModal .input-group {
     /*width: 80%;*/
-    margin: auto;
+    /*margin: auto;*/
+    justify-content: space-around;
+    align-items: center;
 }
 
 #newGameModal .form-control {
     max-width: fit-content;
+    flex-grow: .4;
+    text-align: center;
 }
 
 #root .navbar {
@@ -72,6 +76,12 @@
 
     #newGameModal * {
         font-size: 2.5rem;
+    }
+
+    #newGameModal .modal-dialog {
+        height: 50vh;
+        width: 80%;
+        max-width: 80%;
     }
 
     #newGameModalLabel {
