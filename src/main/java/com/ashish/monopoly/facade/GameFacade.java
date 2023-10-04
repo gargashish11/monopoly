@@ -28,4 +28,6 @@ public interface GameFacade {
     Set<GameData> findAll();
 
     Set<GameProjection> findAllProjectedByIdNotNull();
+
+    Boolean updateGameName(GameData gameData);
 }

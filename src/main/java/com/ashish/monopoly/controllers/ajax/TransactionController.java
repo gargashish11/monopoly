@@ -3,9 +3,15 @@ package com.ashish.monopoly.controllers.ajax;
 import com.ashish.monopoly.data.TransactionData;
 import com.ashish.monopoly.facade.TransactionFacade;
 import jakarta.annotation.Resource;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/transaction")
@@ -20,13 +26,12 @@ public class TransactionController {
     }
 
     @PutMapping("/add")
-    public RedirectView addTransaction(@RequestBody TransactionData transactionData,
-                                       RedirectAttributes redirectAttributes) {
+    public Map<String, Integer> addTransaction(@RequestBody TransactionData transactionData) {
         TransactionData savedTransactionData = transactionFacade.save(transactionData);
-        redirectAttributes
-                .addAttribute("id", savedTransactionData.getGame_id())
-                .addAttribute("txnSuccess", savedTransactionData.getIsSuccess());
-        return new RedirectView("/game/{id}", true);
+        Map<String, Integer> response = new HashMap<>();
+        response.put("id", savedTransactionData.getGame_id());
+        response.put("txnSuccess", savedTransactionData.getIsSuccess() ? 1 : 0);
+        return response;
     }
 
 }

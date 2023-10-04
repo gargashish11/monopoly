@@ -2,6 +2,8 @@ package com.ashish.monopoly.data;
 
 import lombok.Data;
 
+import java.util.Date;
+
 @Data
 public class TransactionData {
 
@@ -20,5 +22,7 @@ public class TransactionData {
     private Integer amount;
 
     private Boolean isSuccess;
+
+    private Date createdDate;
 
 }

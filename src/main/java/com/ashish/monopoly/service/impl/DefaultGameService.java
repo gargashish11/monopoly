@@ -5,6 +5,7 @@ import com.ashish.monopoly.model.GamePlayer;
 import com.ashish.monopoly.model.Player;
 import com.ashish.monopoly.repository.GameProjection;
 import com.ashish.monopoly.repository.GameRepository;
+import com.ashish.monopoly.service.GamePlayerService;
 import com.ashish.monopoly.service.GameService;
 import com.ashish.monopoly.service.PlayerService;
 import jakarta.annotation.Resource;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -31,7 +33,7 @@ public class DefaultGameService implements GameService {
     private PlayerService playerService;
 
     @Resource
-    private EntityManager entityManager;
+    private GamePlayerService gamePlayerService;
 
 
     @Override
@@ -46,15 +48,19 @@ public class DefaultGameService implements GameService {
     @Override
     public Game createGame(Set<Player> players) {
         Game game = new Game();
+        var gamePlayers = new ArrayList<GamePlayer>();
         game.setName(generateName());
         players.forEach(player -> {
             Player savedPlayer = playerService.save(player);
             GamePlayer gamePlayer = new GamePlayer();
             gamePlayer.setPlayer(savedPlayer);
             gamePlayer.setBalance(INITIAL_BALANCE);
+            gamePlayers.add(gamePlayer);
             game.addGamePlayer(gamePlayer);
         });
-        return gameRepository.save(game);
+        Game savedGame = gameRepository.save(game);
+        gamePlayerService.saveAll(gamePlayers);
+        return savedGame;
     }
 
     @Override

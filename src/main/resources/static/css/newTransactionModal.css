@@ -1,0 +1,16 @@
+/*.txnError {*/
+/*    display: none;*/
+/*}*/
+
+@media (max-width: 992px) {
+
+    #newTransactionModal .modal-dialog {
+        width: 90%;
+        max-width: 90%;
+    }
+
+
+    #newTransactionModal * {
+        font-size: 2.5rem;
+    }
+}

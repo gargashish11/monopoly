@@ -1,26 +1,3 @@
-let dummyGameDataReceived = {
-    "id": 952,
-    "name": "New Game",
-    "gamePlayers": [
-        {
-            "id": 802,
-            "balance": 1500
-        },
-        {
-            "id": 803,
-            "balance": 1500
-        },
-        {
-            "id": 804,
-            "balance": 1500
-        },
-        {
-            "id": 805,
-            "balance": 1500
-        }
-    ],
-    "transactions": []
-}
 let navBar = `
     <nav class="navbar" data-bs-theme="light">
     </nav>
@@ -31,56 +8,63 @@ let playerBalanceGroup = `
     </div>
  `;
 
-const showGameState = () => {
-    console.log(dummyGameDataReceived);
+const getGameState = (gameId) => {
+    $.ajax({
+        method: "GET", url: `/game/${gameId}`, success: function (game) {
+            currentGame = game;
+            showGameState(currentGame);
+        }
+    })
+}
+
+const showGameState = (game) => {
     $("#root").children().remove();
     $("#root").append(navBar);
-    $(".navbar").append(gameNameMarkUp(
-        {
-            id: dummyGameDataReceived.id,
-            name: dummyGameDataReceived.name
-        }
-    ));
+    $(".navbar").append(gameNameMarkUp({id: game.id, name: game.name}));
     $(".navbar").append(playerBalanceGroup);
-    $(".playerBalanceGroup").append(playerBalance(
-        1, {id: 1, name: 'Jaivik', balance: 2000}
-    ));
-    $("#root").append(txn());
+    $.each(game.gamePlayers, function (idx, gamePlayer) {
+        $(".playerBalanceGroup").append(playerBalance(idx, gamePlayer));
+    });
+    showPastTransactions(game.transactions);
 }
 
 const gameNameMarkUp = ({id, name}) => {
     return `
     <div id="gameName" class="input-group input-group-lg">
         <span class="input-group-text">Game Name</span>
-        <input id="${id}" type="hidden" value="${id}"/>
-        <input type="text" class="form-control" value="${name}"/>
-        <span class="input-group-text">Save</span>
+        <input id="gameId" type="hidden" value="${id}"/>
+        <input id="gameName" type="text" class="form-control" value="${name}"/>
+        <span id="changeGameName" class="input-group-text">Save</span>
     </div>
     `;
 }
 
-const playerBalance = (idx, {id, name, balance}) => {
+const changeGameName = (event) => {
+    let gameId = $(event.currentTarget).parent().children("#gameId").val();
+    let gameName = $(event.currentTarget).parent().children("#gameName").val();
+    let gameNameData = {
+        id: gameId, name: gameName
+    }
+    $.ajax({
+        method: "PUT",
+        url: `/game/save`,
+        data: JSON.stringify(gameNameData),
+        contentType: "application/json",
+        dataType: "json",
+        success: function () {
+            getGameState(gameId);
+        }
+    })
+}
+
+const playerBalance = (idx, {id, player_name, balance}) => {
     return `
-    <div class="playerBalance shadow text-center">
+    <div class="playerBalance shadow text-center" data-bs-toggle="modal"
+                    data-bs-target="#newTransactionModal" >
         <input id="player[${idx}].id" class="hiddenId" type="hidden" value="${id}"/>
-        <div>${name}</div>
+        <div>${player_name}</div>
         <div>${balance}</div>
     </div>
  `;
 }
 
-const txn = () => {
-    return `
-    <div class="txn text-center shadow">
-        <div class="text-success">
-            <i class="fa-solid fa-circle-plus"></i>
-        </div>
-        <div class="txnSummary">
-            Bank Paid Ashish 200
-        </div>
-        <div class="text-danger">
-            <i class="fa-solid fa-circle-minus"></i>
-        </div>
-    </div>
- `;
-}

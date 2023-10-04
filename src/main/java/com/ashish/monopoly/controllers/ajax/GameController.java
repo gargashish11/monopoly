@@ -4,10 +4,7 @@ import com.ashish.monopoly.data.GameData;
 import com.ashish.monopoly.facade.GameFacade;
 import com.ashish.monopoly.model.Game;
 import com.ashish.monopoly.model.Player;
-import com.ashish.monopoly.repository.GamePlayerRepository;
-import com.ashish.monopoly.repository.GameProjection;
-import com.ashish.monopoly.repository.PlayerRepository;
-import com.ashish.monopoly.repository.TransactionRepository;
+import com.ashish.monopoly.repository.*;
 import com.ashish.monopoly.service.GameService;
 import jakarta.annotation.Resource;
 import org.springframework.core.convert.ConversionService;
@@ -24,6 +21,9 @@ public class GameController {
     @Resource
     private GameFacade gameFacade;
 
+    @Resource
+    private GameRepository gameRepository;
+
     @GetMapping("/{id}")
     public GameData getGame(@PathVariable Integer id) {
         return gameFacade.getGameData(id);
@@ -35,7 +35,12 @@ public class GameController {
     }
 
     @PostMapping(value = "/new")
-    public GameData createGame(@RequestBody Set<Player> players) {
-        return gameFacade.createGame(players);
+    public Integer createGame(@RequestBody Set<Player> players) {
+        return gameFacade.createGame(players).getId();
+    }
+
+    @PutMapping(value = "/save")
+    public Boolean updateGameName(@RequestBody GameData gameData) {
+        return gameFacade.updateGameName(gameData);
     }
 }

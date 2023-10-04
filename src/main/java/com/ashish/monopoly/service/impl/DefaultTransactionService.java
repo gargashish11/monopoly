@@ -7,6 +7,7 @@ import com.ashish.monopoly.service.GamePlayerService;
 import com.ashish.monopoly.service.TransactionService;
 import com.ashish.monopoly.service.exception.InsufficientBalanceException;
 import com.ashish.monopoly.service.exception.NegativeTransactionAmountException;
+import com.ashish.monopoly.service.exception.SameAccountTransaction;
 import jakarta.annotation.Resource;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
@@ -22,7 +23,8 @@ public class DefaultTransactionService implements TransactionService {
 
     @Transactional(rollbackOn = {
             InsufficientBalanceException.class,
-            NegativeTransactionAmountException.class
+            NegativeTransactionAmountException.class,
+            SameAccountTransaction.class
     })
     @Override
     public Transaction save(Transaction transaction) {
@@ -35,6 +37,11 @@ public class DefaultTransactionService implements TransactionService {
         if (txnAmount < 0) {
             transaction.setIsSuccess(false);
             throw new NegativeTransactionAmountException("Negative Transaction Amount");
+        }
+
+        if(transaction.getPayee().equals(transaction.getPayer())) {
+            transaction.setIsSuccess(false);
+            throw new SameAccountTransaction("Same Account Transaction");
         }
 
         GamePlayer payee = gamePlayerService.findByGame_IdAndPlayer(transaction.getGame().getId(), transaction.getPayee());

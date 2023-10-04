@@ -1,10 +1,8 @@
 let players = [{}]
 let newGameModalObject = null;
-let gameDataReceived = null;
 
 const newGameModal = () => {
     newGameModalObject = bootstrap.Modal.getInstance($("#newGameModal"));
-    newGameModalObject.hide();
     let appendTarget = $("#newGameModal .modal-body #playerForm");
     $(appendTarget).children().remove();
     $.get({
@@ -39,9 +37,9 @@ const addPlayerHTML = (event) => {
 
 const deletePlayer = (event) => {
     let playerId = $(event.currentTarget).siblings(".hiddenId").val();
-    if (playerId > 0) {
-        deletePlayerRequest(playerId);
-    }
+    // if (playerId > 0) {
+    //     deletePlayerRequest(playerId);
+    // }
     deletePlayerHTML($(event.currentTarget).parent());
 }
 
@@ -60,7 +58,6 @@ const deletePlayerHTML = (selector) => {
 }
 
 const serializeGameData = () => {
-    const form = $("#playerForm");
     const playerInputs = $(".input-group.playerData");
     playerInputs.each(function (index) {
         const id = $(`input[id^="player[${index}].id"]`).val();
@@ -82,10 +79,9 @@ const startGame = (event) => {
             data: JSON.stringify(players),
             contentType: "application/json",
             dataType: "json",
-            success: function (result) {
-                gameDataReceived = result;
+            success: function (gameId) {
                 newGameModalObject.hide();
-                showGameState();
+                getGameState(gameId);
             }
         }
     )

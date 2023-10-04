@@ -1,104 +1,117 @@
+#root .container {
+    margin: 0;
+    padding: 0;
+    max-width: 100%;
+}
+
 .new-game-container {
-  display: flex;
-  height: 100vh;
+    display: flex;
+    height: 20vh;
+    backdrop-filter: blur(5rem);
 }
 
 .newGame {
-  margin: auto;
-  font-size: 4rem;
-  padding: 2rem 4rem;
-  border-radius: 2rem;
+    margin: auto;
+    font-size: 1rem;
+    padding: 1rem 2rem;
+    border-radius: 1rem;
 }
 
 #newGameModal .modal-dialog {
-  height: 50vh;
+    height: 50vh;
 }
 
 #newGameModal .input-group {
-  /*width: 80%;*/
-  margin: auto;
+    /*width: 80%;*/
+    margin: auto;
 }
 
 #newGameModal .form-control {
-  max-width: -moz-fit-content;
-  max-width: fit-content;
+    max-width: fit-content;
 }
 
 #root .navbar {
-  backdrop-filter: blur(4rem);
+    backdrop-filter: blur(4rem);
 }
 
 .playerBalanceGroup {
-  margin-top: 1rem;
-  z-index: 2000;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  gap: 1rem;
-  width: 100%;
-}
-
-.playerBalance {
-  padding: 1rem 2rem;
-  font-size: 1rem;
-  flex-grow: 1;
-}
-
-.txn {
-  display: flex;
-  justify-content: space-between;
-  padding: 1rem 2rem;
-  font-size: 1rem;
-  gap: 4rem;
-}
-
-@media (max-width: 992px) {
-  #newGameModal * {
-    font-size: 2.5rem;
-  }
-
-  #newGameModalLabel {
-    font-size: 1.5rem;
-  }
-
-  #gameName * {
-    font-size: 2.5rem;
-    margin-top: 1rem;
-  }
-
-  #gameName .input-group-text {
-    border-color: black;
-    padding-right: 3rem;
-    padding-left: 3rem;
-  }
-
-  #gameName .form-control {
-    border-color: black;
-  }
-
-  .playerBalanceGroup {
     margin-top: 1rem;
     z-index: 2000;
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
     gap: 1rem;
-  }
-
-  .playerBalance {
-    padding: 1rem 3rem;
-    font-size: 3rem;
-  }
-
-  .txn {
-    display: flex;
-    justify-content: space-between;
-    padding: 1rem 3rem;
-    font-size: 3rem;
-    gap: 8rem;
-  }
-
-
+    width: 100%;
 }
 
-/*# sourceMappingURL=style.css.map */
+.playerBalance {
+    padding: 1rem 2rem;
+    font-size: 1rem;
+    flex-grow: 1;
+}
+
+.txn {
+    display: flex;
+    justify-content: center;
+    padding: 1rem 2rem;
+    font-size: 1rem;
+    gap: 1rem;
+}
+
+.txn sub {
+    bottom: -1.5rem;
+}
+
+@media (max-width: 992px) {
+    .newGame {
+        margin: auto;
+        font-size: 3rem;
+        padding: 2rem 4rem;
+        border-radius: 2rem;
+    }
+
+    #newGameModal * {
+        font-size: 2.5rem;
+    }
+
+    #newGameModalLabel {
+        font-size: 1.5rem;
+    }
+
+    #gameName * {
+        font-size: 2.5rem;
+        margin-top: 1rem;
+    }
+
+    #gameName .input-group-text {
+        border-color: black;
+        padding-right: 3rem;
+        padding-left: 3rem;
+    }
+
+    #gameName .form-control {
+        border-color: black;
+    }
+
+    .playerBalanceGroup {
+        margin-top: 1rem;
+        z-index: 2000;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        gap: 1rem;
+    }
+
+    .playerBalance {
+        padding: 1rem 3rem;
+        font-size: 3rem;
+    }
+
+    .txn {
+        display: flex;
+        justify-content: center;
+        padding: 1rem 3rem;
+        font-size: 2.25rem;
+        gap: 2rem;
+    }
+}

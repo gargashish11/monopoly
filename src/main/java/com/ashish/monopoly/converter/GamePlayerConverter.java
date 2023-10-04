@@ -9,7 +9,6 @@ import org.springframework.stereotype.Component;
 @Component
 public class GamePlayerConverter implements Converter<GamePlayer, GamePlayerData> {
 
-
     @Override
     public GamePlayerData convert(GamePlayer gamePlayer) {
         Player player = gamePlayer.getPlayer();

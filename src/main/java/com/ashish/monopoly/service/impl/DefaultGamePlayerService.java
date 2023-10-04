@@ -8,7 +8,9 @@ import com.ashish.monopoly.service.exception.InsufficientBalanceException;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class DefaultGamePlayerService implements GamePlayerService {
@@ -24,6 +26,11 @@ public class DefaultGamePlayerService implements GamePlayerService {
     @Override
     public GamePlayer save(GamePlayer gamePlayer) {
         return gamePlayerRepository.save(gamePlayer);
+    }
+
+    @Override
+    public List<GamePlayer> saveAll(List<GamePlayer> gamePlayers) {
+       return gamePlayerRepository.saveAll(gamePlayers);
     }
 
     @Override

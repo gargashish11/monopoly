@@ -75,4 +75,14 @@ public class DefaultGameFacade implements GameFacade {
     public Set<GameProjection> findAllProjectedByIdNotNull() {
         return gameService.findAllProjectedByIdNotNull();
     }
+
+    @Override
+    public Boolean updateGameName(GameData gameData) {
+        try {
+            gameService.save(gameReverseConverter.convert(gameData));
+            return Boolean.TRUE;
+        } catch (Exception e) {
+            return Boolean.FALSE;
+        }
+    }
 }

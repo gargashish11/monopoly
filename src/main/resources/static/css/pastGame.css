@@ -1,0 +1,55 @@
+.old-game-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.pastGamesLabel {
+    font-size: 1rem;
+    max-height: fit-content;
+    padding: 1rem;
+    width: 100%;
+    background: firebrick;
+    color: beige;
+}
+
+.pastGameList {
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+}
+
+.pastGameHeader {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  text-align: center;
+  font-weight: 100;
+  color: black;
+  padding: 0.5rem;
+}
+
+.pastGame {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  text-align: center;
+  padding: 0.5rem;
+  border-collapse: collapse;
+}
+
+.pastGame:nth-child(odd) {
+  background-color: #f6f9ff;
+}
+
+.pastGame:hover {
+  background-color: #e2ecff;
+}
+
+@media (max-width: 992px) {
+
+
+    .pastGamesLabel,
+    .pastGameHeader,
+    .pastGame{
+        font-size: 2.5rem;
+    }
+
+}

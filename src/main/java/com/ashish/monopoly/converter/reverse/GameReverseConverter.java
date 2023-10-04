@@ -19,6 +19,7 @@ public class GameReverseConverter implements Converter<GameData, Game> {
     public Game convert(GameData gameData) {
         Game game = new Game();
         game.setId(gameData.getId());
+        game.setName(gameData.getName());
         if (!CollectionUtils.isEmpty(gameData.getGamePlayers())) {
             game.setGamePlayers(Converters.convertAll(gameData.getGamePlayers(), gamePlayerReverseConverter));
         }

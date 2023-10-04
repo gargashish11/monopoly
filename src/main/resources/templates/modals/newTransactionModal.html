@@ -1,4 +1,37 @@
-<div xmlns:th="http://www.thymeleaf.org" th:fragment="newTranactionModal">
-    <div>New Transaction</div>
-
+<div xmlns:th="http://www.thymeleaf.org" th:fragment="newTransactionModal"
+     class="modal fade" id="newTransactionModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title" id="newTransactionModalLabel">
+                    New Transaction
+                </h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div class="input-group mb-3">
+                    <select class="form-select" id="payer">
+                        <option selected>Choose...</option>
+                    </select>
+                </div>
+                <div class="text-center mb-3" >Pays</div>
+                <div class="input-group mb-3">
+                    <select class="form-select" id="payee">
+                        <option selected>Choose...</option>
+                    </select>
+                </div>
+                <input id="transactionAmount" type="number" class="form-control" placeholder="Amount">
+            </div>
+            <div id="txnError" class="text-center bg-danger text-light"></div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary rounded-4" data-bs-dismiss="modal">
+                    Cancel
+                </button>
+                <button id="addTransaction" type="submit"
+                        class="btn btn-primary rounded-4 ms-3">
+                    Add Transaction
+                </button>
+            </div>
+        </div>
+    </div>
 </div>

@@ -30,6 +30,7 @@ public class TransactionConverter implements Converter<Transaction, TransactionD
 
         transactionData.setAmount(transaction.getAmount());
         transactionData.setIsSuccess(transaction.getIsSuccess());
+        transactionData.setCreatedDate(transaction.getCreatedDate());
         return transactionData;
     }
 }
