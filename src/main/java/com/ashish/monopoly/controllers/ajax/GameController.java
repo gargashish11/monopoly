@@ -35,7 +35,7 @@ public class GameController {
     }
 
     @PostMapping(value = "/new")
-    public Integer createGame(@RequestBody Set<Player> players) {
+    public Integer createGame(@RequestBody List<Player> players) {
         return gameFacade.createGame(players).getId();
     }
 

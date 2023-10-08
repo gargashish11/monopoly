@@ -1,8 +1,6 @@
 package com.ashish.monopoly.model;
 
-import com.fasterxml.jackson.annotation.JsonIncludeProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import jakarta.annotation.Nonnull;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -18,7 +16,7 @@ import java.util.Set;
 @AllArgsConstructor
 public class Player extends AbstractEntity {
 
-    @Nonnull
+    @Column(unique = true)
     private String name;
 
     @JsonManagedReference(value = "player")

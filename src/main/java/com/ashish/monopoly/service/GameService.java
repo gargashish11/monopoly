@@ -13,7 +13,7 @@ public interface GameService {
     Set<Integer> getAllIds();
 
     Game save(Game game);
-    Game createGame(Set<Player> players);
+    Game createGame(List<Player> players);
 
     Optional<Game> findById(Integer id);
 

@@ -11,6 +11,8 @@ public interface PlayerService {
 
     List<Player> findAll();
 
+    Optional<Player> findByName(String name);
+
     Boolean deleteById(Integer id);
 
     Player findById(Integer id);

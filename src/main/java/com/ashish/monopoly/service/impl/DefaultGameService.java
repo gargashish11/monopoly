@@ -9,22 +9,20 @@ import com.ashish.monopoly.service.GamePlayerService;
 import com.ashish.monopoly.service.GameService;
 import com.ashish.monopoly.service.PlayerService;
 import jakarta.annotation.Resource;
-import jakarta.persistence.EntityManager;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 @Service
 @Slf4j
 public class DefaultGameService implements GameService {
 
-    private final Integer INITIAL_BALANCE = 1500;
+    private final Integer INITIAL_BALANCE = 2000;
+
+    private final Integer BANK_INITIAL_BALANCE = 30000;
 
     @Resource
     private GameRepository gameRepository;
@@ -46,15 +44,18 @@ public class DefaultGameService implements GameService {
         return gameRepository.save(game);
     }
     @Override
-    public Game createGame(Set<Player> players) {
+    public Game createGame(List<Player> players) {
         Game game = new Game();
-        var gamePlayers = new ArrayList<GamePlayer>();
         game.setName(generateName());
+        var gamePlayers = new ArrayList<GamePlayer>();
         players.forEach(player -> {
             Player savedPlayer = playerService.save(player);
             GamePlayer gamePlayer = new GamePlayer();
             gamePlayer.setPlayer(savedPlayer);
             gamePlayer.setBalance(INITIAL_BALANCE);
+            if(Objects.equals(savedPlayer.getName(), "Bank")) {
+                gamePlayer.setBalance(BANK_INITIAL_BALANCE);
+            }
             gamePlayers.add(gamePlayer);
             game.addGamePlayer(gamePlayer);
         });

@@ -44,7 +44,7 @@ public class DefaultGameFacade implements GameFacade {
     }
 
     @Override
-    public GameData createGame(Set<Player> players){
+    public GameData createGame(List<Player> players){
         return gameConverter.convert(gameService.createGame(players));
     }
 

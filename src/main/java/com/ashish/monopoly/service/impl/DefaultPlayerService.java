@@ -26,6 +26,11 @@ public class DefaultPlayerService implements PlayerService {
     }
 
     @Override
+    public Optional<Player> findByName(String name) {
+        return playerRepository.findByName(name);
+    }
+
+    @Override
     public Boolean deleteById(Integer id) {
         try {
             playerRepository.deleteById(id);

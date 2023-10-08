@@ -19,7 +19,7 @@ public interface GameFacade {
 
     GameData save(GameData gameData);
 
-    GameData createGame(Set<Player> players);
+    GameData createGame(List<Player> players);
 
     GameData getGameData(Integer gameId);
 
