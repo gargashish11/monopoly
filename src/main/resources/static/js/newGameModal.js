@@ -36,11 +36,12 @@ const addPlayerHTML = (event) => {
 }
 
 const deletePlayer = (event) => {
-    let playerId = $(event.currentTarget).siblings(".hiddenId").val();
-    // if (playerId > 0) {
-    //     deletePlayerRequest(playerId);
-    // }
-    deletePlayerHTML($(event.currentTarget).parent());
+    if ($("#playerForm").children().length > 3) {
+        $("#newGameModal #playerError").text("");
+        deletePlayerHTML($(event.currentTarget).parent());
+    } else {
+        $("#newGameModal #playerError").text("Minimum 3 players are required");
+    }
 }
 
 const deletePlayerRequest = (id) => {
@@ -54,14 +55,20 @@ const deletePlayerRequest = (id) => {
 }
 
 const deletePlayerHTML = (selector) => {
-    $(selector).remove();
+    let playerName = $(selector).children("input[type='text']").val();
+    if (playerName !== "Bank") {
+        $("#newGameModal #playerError").text("");
+        $(selector).remove();
+    } else {
+        $("#newGameModal #playerError").text("Bank can't be removed");
+    }
 }
 
 const serializeGameData = () => {
     const playerInputs = $(".input-group.playerData");
-    playerInputs.each(function (index) {
-        const id = $(`input[id^="player[${index}].id"]`).val();
-        const name = $(`input[id^="player[${index}].name"]`).val();
+    playerInputs.each(function (index, player) {
+        const id = $(player).find(`input[type='hidden']`).val();
+        const name = $(player).find(`input[type='text']`).val();
         players.push({
             "id": parseInt(id),
             "name": name

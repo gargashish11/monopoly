@@ -49,7 +49,7 @@ public class DefaultGameService implements GameService {
         game.setName(generateName());
         var gamePlayers = new ArrayList<GamePlayer>();
         players.forEach(player -> {
-            Player savedPlayer = playerService.save(player);
+            Player savedPlayer = savePlayer(player);
             GamePlayer gamePlayer = new GamePlayer();
             gamePlayer.setPlayer(savedPlayer);
             gamePlayer.setBalance(INITIAL_BALANCE);
@@ -82,18 +82,18 @@ public class DefaultGameService implements GameService {
     private String generateName() {
         LocalDateTime currentDateTime = LocalDateTime.now();
 
-        // Define a custom format pattern and separators
-        String customFormat = "yyyy_MM_dd_HH_mm_ss";
-
         // Create a DateTimeFormatter with the custom format
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(customFormat);
-
-        // Format the LocalDateTime object using the formatter
-        String formattedDateTime = currentDateTime.format(formatter);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy_MM_dd_HH_mm_ss");
 
         // Replace default separators with custom separators
-        return formattedDateTime;
+        return currentDateTime.format(formatter);
     }
+
+    private Player savePlayer(Player player) {
+        Optional<Player> playerOptional = playerService.findByName(player.getName());
+        return playerOptional.orElseGet(() -> playerService.save(player));
+    }
+
 }
 
 
