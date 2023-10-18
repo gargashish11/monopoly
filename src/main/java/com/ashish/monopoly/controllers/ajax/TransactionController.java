@@ -3,12 +3,7 @@ package com.ashish.monopoly.controllers.ajax;
 import com.ashish.monopoly.data.TransactionData;
 import com.ashish.monopoly.facade.TransactionFacade;
 import jakarta.annotation.Resource;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import org.springframework.web.servlet.view.RedirectView;
 
 import java.util.HashMap;
 import java.util.Map;

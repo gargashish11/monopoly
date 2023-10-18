@@ -7,7 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Objects;
 import java.util.Set;
 
@@ -22,11 +22,11 @@ public class Game extends AbstractEntity {
 
     @JsonManagedReference(value = "game")
     @OneToMany(mappedBy = "game", cascade = {CascadeType.DETACH, CascadeType.MERGE})
-    private Set<GamePlayer> gamePlayers = new HashSet<>();
+    private Set<GamePlayer> gamePlayers = new LinkedHashSet<>();
 
     @JsonManagedReference(value = "transactions")
     @OneToMany(mappedBy = "game", cascade = {CascadeType.DETACH, CascadeType.MERGE})
-    private Set<Transaction> transactions = new HashSet<>();
+    private Set<Transaction> transactions = new LinkedHashSet<>();
 
     public void addGamePlayer(GamePlayer gamePlayer) {
         gamePlayers.add(gamePlayer);

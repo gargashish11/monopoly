@@ -5,7 +5,7 @@ import org.springframework.util.Assert;
 
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 public class Converters {
@@ -22,7 +22,7 @@ public class Converters {
         if (sourceCollection == null || sourceCollection.isEmpty()) {
             return Collections.emptySet();
         }
-        final Set<TARGET> result = new HashSet<>(sourceCollection.size());
+        final Set<TARGET> result = new LinkedHashSet<>(sourceCollection.size());
         for (final SOURCE source : sourceCollection) {
             result.add(converter.convert(source));
         }

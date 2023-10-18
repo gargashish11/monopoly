@@ -12,6 +12,11 @@ import jakarta.annotation.Resource;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
+import java.util.Comparator;
+import java.util.LinkedHashSet;
+import java.util.Set;
+import java.util.stream.Collectors;
+
 @Service
 public class DefaultTransactionService implements TransactionService {
 
@@ -64,4 +69,13 @@ public class DefaultTransactionService implements TransactionService {
         return transactionRepository.findById(id).orElse(null);
     }
 
+    @Override
+    public Set<Transaction> filter(
+            Set<Transaction> transactionSet, int maxSize) {
+        return transactionSet.stream()
+                .sorted(Comparator.comparing(Transaction::getCreatedDate).reversed())
+                .limit(maxSize)
+                .collect(Collectors.toCollection(LinkedHashSet::new));
+    }
 }
+

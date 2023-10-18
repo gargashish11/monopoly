@@ -14,18 +14,18 @@ import java.util.List;
 import java.util.Set;
 
 public interface GameFacade {
-
-    Set<Integer> getAllIds();
+//
+//    Set<Integer> getAllIds();
 
     GameData save(GameData gameData);
 
     GameData createGame(List<Player> players);
 
     GameData getGameData(Integer gameId);
-
-    GameData getGameData(Game game);
-
-    Set<GameData> findAll();
+//
+//    GameData getGameData(Game game);
+//
+//    Set<GameData> findAll();
 
     Set<GameProjection> findAllProjectedByIdNotNull();
 

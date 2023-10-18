@@ -1,12 +1,8 @@
 package com.ashish.monopoly.converter;
 
 import com.ashish.monopoly.data.TransactionData;
-import com.ashish.monopoly.model.Game;
 import com.ashish.monopoly.model.Player;
 import com.ashish.monopoly.model.Transaction;
-import com.ashish.monopoly.service.PlayerService;
-import com.ashish.monopoly.service.TransactionService;
-import jakarta.annotation.Resource;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 

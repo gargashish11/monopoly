@@ -1,9 +1,8 @@
 package com.ashish.monopoly.data;
 
 import lombok.Data;
-import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 @Data
@@ -13,8 +12,8 @@ public class GameData {
 
     private String name;
 
-    private Set<GamePlayerData> gamePlayers = new HashSet<>();
+    private Set<GamePlayerData> gamePlayers = new LinkedHashSet<>();
 
-    private Set<TransactionData> transactions = new HashSet<>();
+    private Set<TransactionData> transactions = new LinkedHashSet<>();
 
 }

@@ -5,6 +5,7 @@ import com.ashish.monopoly.converter.GameConverter;
 import com.ashish.monopoly.converter.reverse.GameReverseConverter;
 import com.ashish.monopoly.data.GameData;
 import com.ashish.monopoly.facade.GameFacade;
+import com.ashish.monopoly.facade.TransactionFacade;
 import com.ashish.monopoly.model.Game;
 import com.ashish.monopoly.model.Player;
 import com.ashish.monopoly.repository.GameProjection;
@@ -30,11 +31,14 @@ public class DefaultGameFacade implements GameFacade {
     @Resource
     private GameReverseConverter gameReverseConverter;
 
+    @Resource
+    private TransactionService transactionService;
 
-    @Override
-    public Set<Integer> getAllIds() {
-        return gameService.getAllIds();
-    }
+//
+//    @Override
+//    public Set<Integer> getAllIds() {
+//        return gameService.getAllIds();
+//    }
 
     @Override
     public GameData save(GameData gameData) {
@@ -52,24 +56,25 @@ public class DefaultGameFacade implements GameFacade {
     public GameData getGameData(Integer gameId) {
         Game game = gameService.findById(gameId).orElse(null);
         if (game != null) {
+            game.setTransactions(transactionService.filter(game.getTransactions(), 20));
             return gameConverter.convert(game);
         }
         return null;
     }
 
-    @Override
-    public GameData getGameData(Game game) {
-        try {
-            return gameConverter.convert(game);
-        } catch (ConversionException | IllegalArgumentException iae) {
-            return null;
-        }
-    }
-
-    @Override
-    public Set<GameData> findAll() {
-        return Converters.convertAll(gameService.findAll(),gameConverter);
-    }
+//    @Override
+//    public GameData getGameData(Game game) {
+//        try {
+//            return gameConverter.convert(game);
+//        } catch (ConversionException | IllegalArgumentException iae) {
+//            return null;
+//        }
+//    }
+//
+//    @Override
+//    public Set<GameData> findAll() {
+//        return Converters.convertAll(gameService.findAll(),gameConverter);
+//    }
 
     @Override
     public Set<GameProjection> findAllProjectedByIdNotNull() {
