@@ -1,6 +1,6 @@
 package com.ashish.monopoly.service.impl;
 
 public enum CreditDebit {
-    CREDIT,
-    DEBIT
+  CREDIT,
+  DEBIT
 }

@@ -1,32 +1,34 @@
 package com.ashish.monopoly.controllers.ajax;
 
 import com.ashish.monopoly.model.Player;
+import com.ashish.monopoly.repository.PlayerProjection;
 import com.ashish.monopoly.service.PlayerService;
 import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/player")
 public class PlayerController {
 
-    @Resource
-    private PlayerService playerService;
+  @Resource
+  private PlayerService playerService;
 
-    @GetMapping("/all")
-    public List<Player> getAllPlayers() {
-        return playerService.findAll();
-    }
+  @GetMapping("/all")
+  public Set<PlayerProjection> getAllPlayers() {
+    return playerService.findAllProjectedByIdNotNull();
+  }
 
-    @DeleteMapping("/delete/{id}")
-    public Boolean deletePlayer(@PathVariable Integer id) {
-        return playerService.deleteById(id);
-    }
+  @DeleteMapping("/delete/{id}")
+  public Boolean deletePlayer(@PathVariable Integer id) {
+    return playerService.deleteById(id);
+  }
 
-    @PutMapping("/add")
-    public Player addPlayer(@RequestBody Player player) {
-        return playerService.save(player);
-    }
+  @PutMapping("/add")
+  public Player addPlayer(@RequestBody Player player) {
+    return playerService.save(player);
+  }
 
 }

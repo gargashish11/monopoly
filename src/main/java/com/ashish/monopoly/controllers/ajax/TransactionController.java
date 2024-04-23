@@ -12,21 +12,20 @@ import java.util.Map;
 @RequestMapping("/transaction")
 public class TransactionController {
 
-    @Resource
-    private TransactionFacade transactionFacade;
+  @Resource
+  private TransactionFacade transactionFacade;
 
-    @GetMapping("{id}")
-    public TransactionData get(@PathVariable Integer id) {
-        return transactionFacade.findById(id);
-    }
+  @GetMapping("{id}")
+  public TransactionData get(@PathVariable Integer id) {
+    return transactionFacade.findById(id);
+  }
 
-    @PutMapping("/add")
-    public Map<String, Integer> addTransaction(@RequestBody TransactionData transactionData) {
-        TransactionData savedTransactionData = transactionFacade.save(transactionData);
-        Map<String, Integer> response = new HashMap<>();
-        response.put("id", savedTransactionData.getGame_id());
-        response.put("txnSuccess", savedTransactionData.getIsSuccess() ? 1 : 0);
-        return response;
-    }
-
+  @PutMapping("/add")
+  public Map<String, Integer> addTransaction(@RequestBody TransactionData transactionData) {
+    TransactionData savedTransactionData = transactionFacade.save(transactionData);
+    Map<String, Integer> response = new HashMap<>();
+    response.put("id", savedTransactionData.getGame_id());
+    response.put("txnSuccess", savedTransactionData.getIsSuccess() ? 1 : 0);
+    return response;
+  }
 }

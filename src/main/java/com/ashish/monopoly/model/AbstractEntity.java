@@ -12,19 +12,17 @@ import static jakarta.persistence.TemporalType.TIMESTAMP;
 
 @Data
 @MappedSuperclass
-@EntityListeners({ AuditingEntityListener.class})
+@EntityListeners({AuditingEntityListener.class})
 public class AbstractEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    @Column(name = "id")
-    private Integer id;
-
-    @CreatedDate
-	@Temporal(TIMESTAMP)
-	protected Date createdDate;
-
-	@LastModifiedDate
-	@Temporal(TIMESTAMP)
-	protected Date lastModifiedDate;
+  @CreatedDate
+  @Temporal(TIMESTAMP)
+  protected Date createdDate;
+  @LastModifiedDate
+  @Temporal(TIMESTAMP)
+  protected Date lastModifiedDate;
+  @Id
+  @GeneratedValue(strategy = GenerationType.SEQUENCE)
+  @Column(name = "id")
+  private Integer id;
 
 }

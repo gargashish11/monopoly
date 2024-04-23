@@ -7,22 +7,22 @@ import java.util.Date;
 @Data
 public class TransactionData {
 
-    private Integer id;
+  private Integer id;
 
-    private Integer game_id;
+  private Integer game_id;
 
-    private Integer payer_id;
+  private Integer payer_id;
 
-    private String payer_name;
+  private String payer_name;
 
-    private Integer payee_id;
+  private Integer payee_id;
 
-    private String payee_name;
+  private String payee_name;
 
-    private Integer amount;
+  private Integer amount;
 
-    private Boolean isSuccess;
+  private Boolean isSuccess;
 
-    private Date createdDate;
+  private Date createdDate;
 
 }

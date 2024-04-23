@@ -20,79 +20,80 @@ import java.util.*;
 @Slf4j
 public class DefaultGameService implements GameService {
 
-    private final Integer INITIAL_BALANCE = 2000;
+  private final Integer INITIAL_BALANCE = 2000;
 
-    private final Integer BANK_INITIAL_BALANCE = 30000;
+  private final Integer BANK_INITIAL_BALANCE = 30000;
 
-    @Resource
-    private GameRepository gameRepository;
+  @Resource
+  private GameRepository gameRepository;
 
-    @Resource
-    private PlayerService playerService;
+  @Resource
+  private PlayerService playerService;
 
-    @Resource
-    private GamePlayerService gamePlayerService;
+  @Resource
+  private GamePlayerService gamePlayerService;
 
 
-    @Override
-    public Set<Integer> getAllIds() {
-        return gameRepository.getAllIds();
-    }
+  @Override
+  public Set<Integer> getAllIds() {
+    return gameRepository.getAllIds();
+  }
 
-    @Override
-    public Game save(Game game) {
-        return gameRepository.save(game);
-    }
-    @Override
-    public Game createGame(List<Player> players) {
-        Game game = new Game();
-        game.setName(generateName());
-        var gamePlayers = new ArrayList<GamePlayer>();
-        players.forEach(player -> {
-            Player savedPlayer = savePlayer(player);
-            GamePlayer gamePlayer = new GamePlayer();
-            gamePlayer.setPlayer(savedPlayer);
-            gamePlayer.setBalance(INITIAL_BALANCE);
-            if(Objects.equals(savedPlayer.getName(), "Bank")) {
-                gamePlayer.setBalance(BANK_INITIAL_BALANCE);
-            }
-            gamePlayers.add(gamePlayer);
-            game.addGamePlayer(gamePlayer);
-        });
-        Game savedGame = gameRepository.save(game);
-        gamePlayerService.saveAll(gamePlayers);
-        return savedGame;
-    }
+  @Override
+  public Game save(Game game) {
+    return gameRepository.save(game);
+  }
 
-    @Override
-    public Optional<Game> findById(Integer id) {
-        return gameRepository.findById(id);
-    }
+  @Override
+  public Game createGame(List<Player> players, Integer initialBalance) {
+    Game game = new Game();
+    game.setName(generateName());
+    var gamePlayers = new ArrayList<GamePlayer>();
+    players.forEach(player -> {
+      Player savedPlayer = savePlayer(player);
+      GamePlayer gamePlayer = new GamePlayer();
+      gamePlayer.setPlayer(savedPlayer);
+      gamePlayer.setBalance(initialBalance > 0 ? initialBalance : INITIAL_BALANCE);
+      if (Objects.equals(savedPlayer.getName(), "Bank")) {
+        gamePlayer.setBalance(BANK_INITIAL_BALANCE);
+      }
+      gamePlayers.add(gamePlayer);
+      game.addGamePlayer(gamePlayer);
+    });
+    Game savedGame = gameRepository.save(game);
+    gamePlayerService.saveAll(gamePlayers);
+    return savedGame;
+  }
 
-    @Override
-    public List<Game> findAll() {
-        return gameRepository.findAll();
-    }
+  @Override
+  public Optional<Game> findById(Integer id) {
+    return gameRepository.findById(id);
+  }
 
-    @Override
-    public Set<GameProjection> findAllProjectedByIdNotNull() {
-        return gameRepository.findAllProjectedByIdNotNull();
-    }
+  @Override
+  public List<Game> findAll() {
+    return gameRepository.findAll();
+  }
 
-    private String generateName() {
-        LocalDateTime currentDateTime = LocalDateTime.now();
+  @Override
+  public Set<GameProjection> findAllProjectedByIdNotNull() {
+    return gameRepository.findAllProjectedByIdNotNull();
+  }
 
-        // Create a DateTimeFormatter with the custom format
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy_MM_dd_HH_mm_ss");
+  private String generateName() {
+    LocalDateTime currentDateTime = LocalDateTime.now();
 
-        // Replace default separators with custom separators
-        return currentDateTime.format(formatter);
-    }
+    // Create a DateTimeFormatter with the custom format
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy_MM_dd_HH_mm_ss");
 
-    private Player savePlayer(Player player) {
-        Optional<Player> playerOptional = playerService.findByName(player.getName());
-        return playerOptional.orElseGet(() -> playerService.save(player));
-    }
+    // Replace default separators with custom separators
+    return currentDateTime.format(formatter);
+  }
+
+  private Player savePlayer(Player player) {
+    Optional<Player> playerOptional = playerService.findByName(player.getName());
+    return playerOptional.orElseGet(() -> playerService.save(player));
+  }
 
 }
 

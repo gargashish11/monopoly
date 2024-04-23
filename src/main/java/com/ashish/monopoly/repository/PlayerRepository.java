@@ -6,9 +6,12 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Repository
 public interface PlayerRepository extends JpaRepository<Player, Integer> {
 
-    Optional<Player> findByName(String name);
+  Optional<Player> findByName(String name);
+
+  Set<PlayerProjection> findAllProjectedByIdNotNull();
 }

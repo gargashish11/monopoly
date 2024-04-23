@@ -3,9 +3,9 @@ package com.ashish.monopoly.repository;
 import java.util.Date;
 
 public interface GameProjection {
-    Integer getId();
+  Integer getId();
 
-    String getName();
+  String getName();
 
-    Date getLastModifiedDate();
+  Date getLastModifiedDate();
 }

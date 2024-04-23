@@ -12,20 +12,20 @@ import java.util.Optional;
 @SpringBootApplication
 public class Monopoly implements CommandLineRunner {
 
-    @Resource
-    PlayerService playerService;
+  @Resource
+  PlayerService playerService;
 
-    public static void main(String[] args) {
-        SpringApplication.run(Monopoly.class, args);
-    }
+  public static void main(String[] args) {
+    SpringApplication.run(Monopoly.class, args);
+  }
 
-    @Override
-    public void run(String... args) throws Exception {
-        Optional<Player> optionalPlayer = playerService.findByName("Bank");
-        if (optionalPlayer.isEmpty()) {
-            Player player = new Player();
-            player.setName("Bank");
-            playerService.save(player);
-        }
+  @Override
+  public void run(String... args) throws Exception {
+    Optional<Player> optionalPlayer = playerService.findByName("Bank");
+    if (optionalPlayer.isEmpty()) {
+      Player player = new Player();
+      player.setName("Bank");
+      playerService.save(player);
     }
+  }
 }

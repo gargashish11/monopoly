@@ -10,14 +10,16 @@ import java.util.Set;
 
 public interface GameService {
 
-    Set<Integer> getAllIds();
+  Set<Integer> getAllIds();
 
-    Game save(Game game);
-    Game createGame(List<Player> players);
+  Game save(Game game);
+//    Game createGame(List<Player> players);
 
-    Optional<Game> findById(Integer id);
+  Game createGame(List<Player> players, Integer initialBalance);
 
-    List<Game> findAll();
+  Optional<Game> findById(Integer id);
 
-    Set<GameProjection> findAllProjectedByIdNotNull();
+  List<Game> findAll();
+
+  Set<GameProjection> findAllProjectedByIdNotNull();
 }
