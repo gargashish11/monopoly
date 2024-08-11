@@ -16,10 +16,14 @@ import static jakarta.persistence.TemporalType.TIMESTAMP;
 public class AbstractEntity {
   @CreatedDate
   @Temporal(TIMESTAMP)
+  @Column(updatable = false)
   protected Date createdDate;
+
   @LastModifiedDate
   @Temporal(TIMESTAMP)
+  @Column(insertable = false)
   protected Date lastModifiedDate;
+
   @Id
   @GeneratedValue(strategy = GenerationType.SEQUENCE)
   @Column(name = "id")
