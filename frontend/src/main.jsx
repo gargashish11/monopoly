@@ -9,6 +9,7 @@ import {HomeLayout, Landing, NewGame, RecentGames, SinglePageError} from "@/page
 import Game from "@/pages/Game.jsx";
 import {Provider} from "react-redux";
 import {store} from "@/store/index.js";
+import PlayerList from "@/pages/PlayerList.jsx";
 
 const queryClient = new QueryClient();
 
@@ -36,6 +37,11 @@ const router = createBrowserRouter([
             {
                 path: '/game/:id',
                 element: <Game/>,
+                errorElement: <SinglePageError/>
+            },
+            {
+                path: '/players',
+                element: <PlayerList/>,
                 errorElement: <SinglePageError/>
             }
         ]

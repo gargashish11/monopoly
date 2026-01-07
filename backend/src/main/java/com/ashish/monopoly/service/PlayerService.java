@@ -11,17 +11,17 @@ public interface PlayerService {
 
   Player save(Player player);
 
-  List<Player> findAll();
-
   Optional<Player> findByName(String name);
 
   Boolean deleteById(Integer id);
 
-  Player findById(Integer id);
+  Optional<Player> findById(Integer id);
 
   Set<PlayerProjection> findAllProjectedByIdNotNull();
 
   List<Player> findByNames(List<String> names);
 
   List<Player> saveAll(List<Player> players);
+
+  Player updateName(Integer id, String name);
 }

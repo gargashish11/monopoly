@@ -15,12 +15,10 @@ const RecentGames = () => {
     if (isLoading) {
         content = <Skeleton className="h-8 w-8" times={4}/>;
     } else if (error) {
-        console.log(error)
         content = <div>Error fetching games. Please try again later.</div>
     } else if (data.length === 0) {
         content = <div>No games found.</div>
     } else {
-        console.log(content);
         content = <DataTable columns={GameColumns} data={data}/>
     }
 

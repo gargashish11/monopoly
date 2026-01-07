@@ -1,6 +1,6 @@
-import formatDate from "@/lib/utils/format.js";
 import {Button} from "@/components/ui/button.jsx";
 import {ArrowUpDown, CircleMinus} from "lucide-react"
+import formatDate from "@/lib/utils.js";
 
 
 const GameColumns = [

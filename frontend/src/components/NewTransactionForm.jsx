@@ -46,8 +46,8 @@ export const NewTransactionForm = ({payer, newTransactionFormSchema}) => {
             "amount": values.amount,
         }
         newTransaction.mutate(txn, {
-            onSuccess: (data) => {
-                navigate(`/game/${data.id}`)
+            onSuccess: data => {
+                navigate(`/game/${data.game_id}`)
             }
         })
     }
@@ -98,7 +98,9 @@ export const NewTransactionForm = ({payer, newTransactionFormSchema}) => {
                     )}
                 />
                 <DialogClose asChild>
-                    <Button type="submit">Submit</Button>
+                    <Button variant='outline'
+                            className='border-2 rounded-xl my-2 mt-0 px-9 py-6 text-[1rem]
+                hover:bg-accent-foreground' type="submit">Submit</Button>
                 </DialogClose>
             </form>
         </Form>

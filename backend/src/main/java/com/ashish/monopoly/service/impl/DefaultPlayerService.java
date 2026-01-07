@@ -1,10 +1,12 @@
 package com.ashish.monopoly.service.impl;
 
 import com.ashish.monopoly.model.Player;
+import com.ashish.monopoly.model.PlayerType;
 import com.ashish.monopoly.repository.PlayerProjection;
 import com.ashish.monopoly.repository.PlayerRepository;
 import com.ashish.monopoly.service.PlayerService;
-import jakarta.annotation.Resource;
+import jakarta.persistence.EntityNotFoundException;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,19 +14,21 @@ import java.util.Optional;
 import java.util.Set;
 
 @Service
+@AllArgsConstructor
 public class DefaultPlayerService implements PlayerService {
 
-    @Resource
-    private PlayerRepository playerRepository;
+    private final PlayerRepository playerRepository;
 
     @Override
     public Player save(Player player) {
+        assignTypeByName(player);
         return playerRepository.save(player);
     }
 
     @Override
-    public List<Player> findAll() {
-        return playerRepository.findAll();
+    public List<Player> saveAll(List<Player> players) {
+        players.forEach(this::assignTypeByName);
+        return playerRepository.saveAll(players);
     }
 
     @Override
@@ -34,11 +38,25 @@ public class DefaultPlayerService implements PlayerService {
 
     @Override
     public Boolean deleteById(Integer id) {
-        if (!playerRepository.existsById(id)) {
+        Optional<Player> playerOpt = playerRepository.findById(id);
+
+        if (playerOpt.isEmpty()) {
             return Boolean.FALSE;
         }
-        playerRepository.deleteById(id);
-        return Boolean.TRUE;
+
+        Player player = playerOpt.get();
+
+        if (player.getType() == PlayerType.BANK || player.getType() == PlayerType.BOT) {
+            return Boolean.FALSE;
+        }
+
+        // 3. Delete safely
+        try {
+            playerRepository.deleteById(id);
+            return Boolean.TRUE;
+        } catch (Exception e) {
+            return Boolean.FALSE;
+        }
     }
 
     @Override
@@ -47,8 +65,8 @@ public class DefaultPlayerService implements PlayerService {
     }
 
     @Override
-    public Player findById(Integer id) {
-        return playerRepository.findById(id).orElse(null);
+    public Optional<Player> findById(Integer id) {
+        return playerRepository.findById(id);
     }
 
     @Override
@@ -56,8 +74,27 @@ public class DefaultPlayerService implements PlayerService {
         return playerRepository.findAllProjectedByIdNotNull();
     }
 
+    private void assignTypeByName(Player player) {
+        if (player.getName() == null) return;
+
+        if ("Bank".equalsIgnoreCase(player.getName())) {
+            player.setType(PlayerType.BANK);
+        } else if ("Bot".equalsIgnoreCase(player.getName())) {
+            player.setType(PlayerType.BOT);
+        } else {
+            if (player.getType() == null) {
+                player.setType(PlayerType.HUMAN);
+            }
+        }
+    }
+
     @Override
-    public List<Player> saveAll(List<Player> players) {
-        return playerRepository.saveAll(players);
+    public Player updateName(Integer id, String name) {
+        return playerRepository.findById(id)
+                .map(existingPlayer -> {
+                    existingPlayer.setName(name);
+                    return this.save(existingPlayer);
+                })
+                .orElseThrow(() -> new EntityNotFoundException("Player not found with id: " + id));
     }
 }

@@ -24,15 +24,15 @@ public class Player extends AbstractEntity {
     private PlayerType type = PlayerType.HUMAN; // Default to HUMAN
 
     @JsonManagedReference(value = "player")
-    @OneToMany(mappedBy = "player", cascade = {CascadeType.DETACH, CascadeType.MERGE})
+    @OneToMany(mappedBy = "player", cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.REMOVE}, orphanRemoval = true)
     private Set<GamePlayer> gamePlayers = new LinkedHashSet<>();
 
     @JsonManagedReference(value = "payer")
-    @OneToMany(mappedBy = "payer", cascade = {CascadeType.DETACH, CascadeType.MERGE})
+    @OneToMany(mappedBy = "payer", cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.REMOVE}, orphanRemoval = true)
     private Set<Transaction> paid = new LinkedHashSet<>();
 
     @JsonManagedReference(value = "payee")
-    @OneToMany(mappedBy = "payee", cascade = {CascadeType.DETACH, CascadeType.MERGE})
+    @OneToMany(mappedBy = "payee", cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.REMOVE}, orphanRemoval = true)
     private Set<Transaction> received = new LinkedHashSet<>();
 
     public void addGamePlayer(GamePlayer gamePlayer) {

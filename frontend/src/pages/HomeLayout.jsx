@@ -1,6 +1,5 @@
 import {Outlet, useNavigation} from "react-router-dom";
 import Navbar from "@/components/Navbar.jsx";
-import Sidebar from "@/components/Sidebar.jsx";
 
 const HomeLayout = () => {
     const navigation = useNavigation();

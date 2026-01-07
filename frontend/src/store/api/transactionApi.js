@@ -5,6 +5,6 @@ const transactionApi = axios.create({
 })
 
 export const addTransaction = async (transactionData) => {
-    const response = await transactionApi.put("/transaction/add", transactionData)
+    const response = await transactionApi.post("/transaction/add", transactionData)
     return (await response).data;
 }

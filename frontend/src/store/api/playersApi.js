@@ -6,5 +6,15 @@ const playersApi = axios.create({
 
 export const getPlayers = async ({signal}) => {
     const response = await playersApi.get("/player/all", signal)
-    return (await response).data;
+    return response.data;
+}
+
+export const deletePlayer = async ({signal, id}) => {
+    const response = await playersApi.delete(`/player/${id}`, {signal})
+    return response.data
+}
+
+export const updatePlayer = async ({signal, id, player}) => {
+    const response = await playersApi.patch(`/player/${id}`, player, {signal})
+    return response.data
 }

@@ -17,7 +17,6 @@ const NewGame = () => {
     } else if (error) {
         content = <div>Error fetching players. Please try again later.</div>
     } else {
-        // console.log(data)
         content = <NewGameForm playersData={data}/>
     }
     return <>{content}</>

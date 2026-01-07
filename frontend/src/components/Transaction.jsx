@@ -1,5 +1,5 @@
 import {CirclePlus} from "lucide-react";
-import formatDate from "@/lib/utils/format.js";
+import formatDate from "@/lib/utils.js";
 
 const Transaction = ({transaction}) => {
     return (
