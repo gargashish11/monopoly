@@ -1,0 +1,20 @@
+package com.ashish.monopoly.repository;
+
+import com.ashish.monopoly.model.Player;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+import java.util.Collection;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
+
+@Repository
+public interface PlayerRepository extends JpaRepository<Player, Integer> {
+
+  Optional<Player> findByName(String name);
+
+  Set<PlayerProjection> findAllProjectedByIdNotNull();
+
+  List<Player> findByNameIn(Collection<String> names);
+}
