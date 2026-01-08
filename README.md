@@ -1,7 +1,7 @@
 A simple Spring and React based SPA, developed with an intention to play the monopoly game smoothly, specifically without notes.
 Features: 
   1. Transaction tracking
-  2. Player creation
+  2. Player editing
   3. Game tracking
   4. Sorted transactions, only in frontend.
   5. And some basic transaction checks.
