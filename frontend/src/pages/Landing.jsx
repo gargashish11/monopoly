@@ -38,7 +38,8 @@ export const Landing = () => {
     }
 
     return (<>
-        <Button variant='outline'
+        <Button asChild
+                variant='outline'
                 className='border-2 rounded-xl my-2 mt-0 px-9 py-6 text-[1rem]
                 hover:bg-accent-foreground hover:text-background'>
             <Link to="/game/new">New Game</Link>

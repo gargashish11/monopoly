@@ -11,7 +11,6 @@ import {Button} from "@/components/ui/button.jsx";
 import {AlignLeft} from "lucide-react";
 import links from "@/data/links.js";
 import {Link} from "react-router-dom";
-import {v4 as uuidv4} from "uuid";
 
 const NavDropDownMenu = () => {
     return (
@@ -24,12 +23,12 @@ const NavDropDownMenu = () => {
             </DropdownMenuTrigger>
             <DropdownMenuContent className="w-56">
                 {links.map(link => {
-                    return (<DropdownMenuGroup key={uuidv4()}>
-                        <DropdownMenuLabel className='capitalize' key={uuidv4()}>{link.label}</DropdownMenuLabel>
-                        <DropdownMenuSeparator key={uuidv4()} className='bg-gray-200'/>
+                    return (<DropdownMenuGroup key={link.label}>
+                        <DropdownMenuLabel className='capitalize'>{link.label}</DropdownMenuLabel>
+                        <DropdownMenuSeparator className='bg-gray-200'/>
                         {link.hrefs.map(href => {
                             return (
-                                <DropdownMenuItem key={uuidv4()} asChild>
+                                <DropdownMenuItem key={href.to} asChild>
                                     <Link to={href.to}>{href.label}</Link>
                                 </DropdownMenuItem>
                             )

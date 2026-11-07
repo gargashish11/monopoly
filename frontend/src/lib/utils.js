@@ -5,11 +5,13 @@ export function cn(...inputs) {
   return twMerge(clsx(inputs));
 }
 const formatDate = (dateString) => {
-    let dateTime = new Date(dateString);
+    if (!dateString) return "-";
+    const dateTime = new Date(dateString);
+    if (isNaN(dateTime.getTime())) return "-";
     const year = dateTime.getFullYear();
-    const month = (dateTime.getMonth() + 1).toString().padStart(2, '0'); // Months are zero-based, so we add 1
+    const month = (dateTime.getMonth() + 1).toString().padStart(2, '0');
     const day = dateTime.getDate().toString().padStart(2, '0');
-    const hours = dateTime.getHours().toString();
+    const hours = dateTime.getHours().toString().padStart(2, '0');
     const minutes = dateTime.getMinutes().toString().padStart(2, '0');
     return `${day}-${month}-${year} ${hours}:${minutes}`;
 }

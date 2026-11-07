@@ -36,7 +36,7 @@ const GameColumns = [
     },
     {
         accessorKey: "id",
-        header: ({column}) => {
+        header: () => {
             return (
                 <div>
                     Delete
@@ -48,7 +48,7 @@ const GameColumns = [
                  onClick={e => {
                      e.stopPropagation();
                      // Call the function passed via meta
-                     table.options.meta?.removeGame(row.original.id);
+                     table.options.meta?.removeGame?.(row.original.id);
                  }}
             >
                 <CircleMinus color="#fff" className='mx-auto fill-red-700'/>

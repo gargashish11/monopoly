@@ -101,7 +101,8 @@ const NewGameForm = ({playersData}) => {
                                 name={`players.${index}.name`}
                                 render={({field}) => (
                                     <div className="flex justify-center">
-                                        <Button onClick={(e) => onRemove(e, index)}
+                                        <Button type="button"
+                                                onClick={(e) => onRemove(e, index)}
                                                 disabled={field.value === 'Bank'}
                                                 className='bg-background mx-4 hover:bg-red-700 px-2 py-1'>
                                             <CircleMinus className='fill-red-700'/>
@@ -112,7 +113,8 @@ const NewGameForm = ({playersData}) => {
                                             </FormControl>
                                             <FormMessage className="text-red-500 text-xs"/>
                                         </FormItem>
-                                        <Button onClick={() => append({id: null, name: ""})}
+                                        <Button type="button"
+                                                onClick={() => append({id: null, name: ""})}
                                                 className='bg-background mx-4 hover:bg-green-700 px-2 py-1'>
                                             <CirclePlus className='fill-green-700'/>
                                         </Button>

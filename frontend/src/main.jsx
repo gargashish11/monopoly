@@ -5,7 +5,7 @@ import './index.css'
 import App from './App.jsx'
 import {QueryClient, QueryClientProvider} from "@tanstack/react-query";
 import {createBrowserRouter, RouterProvider} from "react-router-dom";
-import {HomeLayout, Landing, NewGame, RecentGames, SinglePageError} from "@/pages/index.js";
+import {Error, HomeLayout, Landing, NewGame, RecentGames, SinglePageError} from "@/pages/index.js";
 import Game from "@/pages/Game.jsx";
 import {Provider} from "react-redux";
 import {store} from "@/store/index.js";
@@ -52,9 +52,7 @@ createRoot(document.getElementById('root')).render(
     <React.StrictMode>
         <Provider store={store}>
             <QueryClientProvider client={queryClient}>
-                <RouterProvider router={router}>
-                    <App/>
-                </RouterProvider>
+                <RouterProvider router={router} />
             </QueryClientProvider>
         </Provider>
     </React.StrictMode>

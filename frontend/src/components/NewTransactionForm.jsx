@@ -11,8 +11,9 @@ import {useMutation, useQueryClient} from "@tanstack/react-query";
 import {addTransaction} from "@/store/api/transactionApi.js";
 import {useNavigate, useParams} from "react-router-dom";
 import {DialogClose} from "@/components/ui/dialog.jsx";
+import {Loader2} from "lucide-react";
 
-export const NewTransactionForm = ({payer, newTransactionFormSchema}) => {
+export const NewTransactionForm = ({payer, newTransactionFormSchema, onClose}) => {
     const queryClient = useQueryClient();
     const payees = useSelector(state => state.payees);
     const navigate = useNavigate();
@@ -20,10 +21,14 @@ export const NewTransactionForm = ({payer, newTransactionFormSchema}) => {
 
     const newTransaction = useMutation({
         mutationFn: addTransaction,
-        onSuccess: () => {
+        onSuccess: (data) => {
             queryClient.invalidateQueries({
                 queryKey: ['game', {id}],
-            })
+            });
+            onClose?.();
+            if (data?.game_id) {
+                navigate(`/game/${data.game_id}`);
+            }
         }
     })
 
@@ -31,12 +36,14 @@ export const NewTransactionForm = ({payer, newTransactionFormSchema}) => {
         resolver: zodResolver(newTransactionFormSchema),
         mode: "onChange",
         defaultValues: {
-            amount: payer.balance,
+            amount: payer.balance || 0,
         }
     })
 
     const onSubmit = (values) => {
-        const [payee] = payees.filter(payee => payee.player_id === values.payee)
+        const payee = payees.find(p => p.player_id === values.payee);
+        if (!payee) return;
+
         const txn = {
             "game_id": payer.game_id,
             "payer_id": payer.player_id,
@@ -45,11 +52,7 @@ export const NewTransactionForm = ({payer, newTransactionFormSchema}) => {
             "payee_name": payee.player_name,
             "amount": values.amount,
         }
-        newTransaction.mutate(txn, {
-            onSuccess: data => {
-                navigate(`/game/${data.game_id}`)
-            }
-        })
+        newTransaction.mutate(txn);
     }
 
     return (<>
@@ -81,7 +84,7 @@ export const NewTransactionForm = ({payer, newTransactionFormSchema}) => {
                                     })}
                                 </SelectContent>
                             </Select>
-                            <FormMessage/>
+                            <FormMessage className="text-center text-red-500 text-xs"/>
                         </FormItem>
                     }}
                 />
@@ -91,17 +94,29 @@ export const NewTransactionForm = ({payer, newTransactionFormSchema}) => {
                     render={({field}) => (
                         <FormItem className="my-2">
                             <FormControl className='text-center'>
-                                <Input className='my-1' {...field} />
+                                <Input className='my-1' type="number" {...field} />
                             </FormControl>
                             <FormMessage className="text-center text-red-500 text-xs"/>
                         </FormItem>
                     )}
                 />
-                <DialogClose asChild>
+                {newTransaction.isError && (
+                    <div className="text-center text-red-500 text-xs mb-2">
+                        {newTransaction.error?.response?.data?.message || "Transaction failed"}
+                    </div>
+                )}
+                <div className="flex gap-2 justify-end mt-2">
+                    <DialogClose asChild>
+                        <Button variant='ghost' type="button">Cancel</Button>
+                    </DialogClose>
                     <Button variant='outline'
-                            className='border-2 rounded-xl my-2 mt-0 px-9 py-6 text-[1rem]
-                hover:bg-accent-foreground' type="submit">Submit</Button>
-                </DialogClose>
+                            className='border-2 rounded-xl px-9 py-6 text-[1rem] hover:bg-accent-foreground'
+                            type="submit"
+                            disabled={newTransaction.isPending}>
+                        {newTransaction.isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin"/>}
+                        Submit
+                    </Button>
+                </div>
             </form>
         </Form>
     </>)

@@ -4,7 +4,7 @@ import {Link} from "react-router-dom";
 
 const MenuAccordion = ({...props}) => {
     return (
-        <Accordion type={props.type ?? "single"} collapsible={props.type ?? "true"}>
+        <Accordion type={props.type ?? "single"} collapsible={props.type === "multiple" ? undefined : true}>
             {links.map((link, index) => {
                 return (
                     <AccordionItem value={`item-${index + 1}`} key={index} className='p-3'>

@@ -1,15 +1,27 @@
 import {DataTable, GameColumns} from "@/components/index.js";
 import Skeleton from "@/components/Skeleton.jsx";
-import {useQuery} from "@tanstack/react-query";
-import {getGames} from "@/store/api/gamesApi.js";
+import {useMutation, useQuery, useQueryClient} from "@tanstack/react-query";
+import {deleteSingleGame, getGames} from "@/store/api/gamesApi.js";
 
 const RecentGames = () => {
+    const queryClient = useQueryClient();
 
     const {data, error, isLoading} = useQuery({
         queryKey: ['game'],
         queryFn: ({signal}) => getGames({signal}),
         staleTime: 30000
     })
+
+    const deleteMutation = useMutation({
+        mutationFn: deleteSingleGame,
+        onSuccess: () => {
+            queryClient.invalidateQueries({queryKey: ['game']});
+        }
+    });
+
+    const handleRemoveGame = (id) => {
+        deleteMutation.mutate({id});
+    };
 
     let content;
     if (isLoading) {
@@ -19,7 +31,7 @@ const RecentGames = () => {
     } else if (data.length === 0) {
         content = <div>No games found.</div>
     } else {
-        content = <DataTable columns={GameColumns} data={data}/>
+        content = <DataTable columns={GameColumns} data={data} onDelete={handleRemoveGame}/>
     }
 
     return (<>{content}</>)

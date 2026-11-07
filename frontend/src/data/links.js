@@ -16,26 +16,9 @@ const links = [
         label: 'player',
         hrefs: [
             {
-                to: '/player/edit',
-                label: 'Add/Delete/Edit Player'
+                to: '/players',
+                label: 'Manage Players'
             },
-            {
-                to: '/player/view',
-                label: 'View Players'
-            },
-        ]
-    },
-    {
-        label: 'transaction',
-        hrefs: [
-            {
-                to: '/transaction/new',
-                label: 'New Transaction'
-            },
-            {
-                to: '/transaction/all',
-                label: 'View Transactions'
-            }
         ]
     }
 ]

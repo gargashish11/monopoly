@@ -1,10 +1,9 @@
-import classNames from "classnames";
 import {Link} from "react-router-dom";
+import {cn} from "@/lib/utils.js";
 
 const Logo = ({className}) => {
-    const classes = classNames('mx-auto', 'text-2xl', className);
     return (
-        <div className="flex items-center gap-2">
+        <div className={cn("flex items-center gap-2", className)}>
             <Link to="/" className="font-semibold text-lg">Monopoly</Link>
         </div>
     );

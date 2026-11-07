@@ -1,5 +1,5 @@
 import {useState} from 'react';
-import {Menu, X, Home, Info, Settings, User, Swords} from 'lucide-react';
+import {Menu, X, User, Swords} from 'lucide-react';
 import {Button} from '@/components/ui/button';
 import {
     Sheet,
@@ -35,15 +35,15 @@ const Navbar = () => {
                                 asChild
                                 className="gap-2"
                             >
-                                <a href={item.href}>
+                                <Link to={item.href}>
                                     <Icon className="h-4 w-4"/>
                                     {item.name}
-                                </a>
+                                </Link>
                             </Button>
                         );
                     })}
-                    <Button variant="default" size="sm" className="ml-2">
-                        Get Started
+                    <Button variant="default" size="sm" className="ml-2" asChild>
+                        <Link to="/game/new">New Game</Link>
                     </Button>
                 </div>
 
