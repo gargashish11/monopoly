@@ -11,16 +11,22 @@ public class GamePlayerConverter implements Converter<GamePlayer, GamePlayerData
 
   @Override
   public GamePlayerData convert(GamePlayer gamePlayer) {
-    Player player = gamePlayer.getPlayer();
+    if (gamePlayer == null) {
+      return null;
+    }
     GamePlayerData gamePlayerData = new GamePlayerData();
-
     gamePlayerData.setId(gamePlayer.getId());
 
-    gamePlayerData.setGame_id(gamePlayer.getGame().getId());
-    gamePlayerData.setGame_name(gamePlayer.getGame().getName());
+    if (gamePlayer.getGame() != null) {
+      gamePlayerData.setGame_id(gamePlayer.getGame().getId());
+      gamePlayerData.setGame_name(gamePlayer.getGame().getName());
+    }
 
-    gamePlayerData.setPlayer_id(player.getId());
-    gamePlayerData.setPlayer_name(player.getName());
+    Player player = gamePlayer.getPlayer();
+    if (player != null) {
+      gamePlayerData.setPlayer_id(player.getId());
+      gamePlayerData.setPlayer_name(player.getName());
+    }
 
     gamePlayerData.setBalance(gamePlayer.getBalance());
     return gamePlayerData;

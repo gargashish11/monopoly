@@ -20,7 +20,8 @@ public class GlobalExceptionHandler {
     @ExceptionHandler({
         InsufficientBalanceException.class,
         NegativeTransactionAmountException.class,
-        SameAccountTransaction.class
+        SameAccountTransaction.class,
+        IllegalArgumentException.class
     })
     public ResponseEntity<ErrorResponse> handleBusinessExceptions(RuntimeException ex) {
         return buildResponse(HttpStatus.BAD_REQUEST, ex.getMessage());

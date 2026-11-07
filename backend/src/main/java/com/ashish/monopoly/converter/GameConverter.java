@@ -20,6 +20,9 @@ public class GameConverter implements Converter<Game, GameData> {
 
   @Override
   public GameData convert(Game game) {
+    if (game == null) {
+      return null;
+    }
     GameData gameData = new GameData();
     gameData.setId(game.getId());
     gameData.setName(game.getName());

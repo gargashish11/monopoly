@@ -1,6 +1,7 @@
 package com.ashish.monopoly;
 
 import com.ashish.monopoly.model.Player;
+import com.ashish.monopoly.model.PlayerType;
 import com.ashish.monopoly.service.PlayerService;
 import jakarta.annotation.Resource;
 import org.springframework.boot.CommandLineRunner;
@@ -27,6 +28,7 @@ public class Monopoly implements CommandLineRunner {
     if (optionalPlayer.isEmpty()) {
       Player player = new Player();
       player.setName("Bank");
+      player.setType(PlayerType.BANK);
       playerService.save(player);
     }
   }

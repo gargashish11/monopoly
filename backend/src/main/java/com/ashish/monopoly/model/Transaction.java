@@ -39,8 +39,8 @@ public class Transaction extends AbstractEntity {
   @Override
   public boolean equals(Object o) {
     if (this == o) return true;
-    if (!(o instanceof Game)) return false;
-    return this.getId() != null && this.getId().equals(((Game) o).getId());
+    if (!(o instanceof Transaction that)) return false;
+    return this.getId() != null && this.getId().equals(that.getId());
   }
 
   @Override
@@ -50,8 +50,10 @@ public class Transaction extends AbstractEntity {
 
   @Override
   public String toString() {
-    return "Game{" +
+    return "Transaction{" +
             "id=" + this.getId() +
+            ", amount=" + amount +
+            ", isSuccess=" + isSuccess +
             '}';
   }
 }

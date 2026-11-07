@@ -48,7 +48,7 @@ public class GameController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteGame(@Valid @PathVariable Integer id) {
+    public ResponseEntity<Void> deleteGame(@PathVariable Integer id) {
         gameFacade.deleteGame(id);
         return ResponseEntity.noContent().build();
     }

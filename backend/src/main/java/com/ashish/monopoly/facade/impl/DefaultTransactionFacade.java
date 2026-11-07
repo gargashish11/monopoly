@@ -26,20 +26,17 @@ public class DefaultTransactionFacade implements TransactionFacade {
 
   @Override
   public TransactionData save(TransactionData transactionData) {
-    try {
-      Transaction transaction = transactionService.save(
-              transactionReverseConverter.convert(transactionData));
-      return transactionConverter.convert(transaction);
-    } catch (InsufficientBalanceException
-             | NegativeTransactionAmountException
-             | SameAccountTransaction exception) {
-      transactionData.setIsSuccess(Boolean.FALSE);
-      return transactionData;
-    }
+    Transaction transaction = transactionService.save(
+            transactionReverseConverter.convert(transactionData));
+    return transactionConverter.convert(transaction);
   }
 
   @Override
   public TransactionData findById(Integer id) {
-    return transactionConverter.convert(transactionService.findById(id));
+    Transaction transaction = transactionService.findById(id);
+    if (transaction == null) {
+      return null;
+    }
+    return transactionConverter.convert(transaction);
   }
 }

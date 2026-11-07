@@ -50,41 +50,60 @@ public class DefaultGameService implements GameService {
     @Override
     @Transactional
     public Game createGame(List<Player> players, Integer initialBalance) {
+        if (players == null || players.isEmpty()) {
+            throw new IllegalArgumentException("Players list cannot be empty");
+        }
+
         Game game = new Game();
         game.setName(generateName());
         Game savedGame = gameRepository.save(game);
 
-        // 1. EXTRACT NAMES & FETCH EXISTING PLAYERS (Batch Select)
+        // 1. EXTRACT UNIQUE NAMES & FETCH EXISTING PLAYERS
         List<String> incomingNames = players.stream()
+                .filter(Objects::nonNull)
                 .map(Player::getName)
+                .filter(name -> name != null && !name.trim().isEmpty())
+                .map(String::trim)
                 .toList();
 
-        // Requires: findByNameIn(Collection<String> names) in your Repository
-        List<Player> existingPlayers = playerService.findByNames(incomingNames);
+        if (incomingNames.isEmpty()) {
+            throw new IllegalArgumentException("At least one valid player with a name must be provided");
+        }
+
+        Map<String, String> uniqueNamesMap = new LinkedHashMap<>();
+        for (String name : incomingNames) {
+            uniqueNamesMap.putIfAbsent(name.toLowerCase(), name);
+        }
+        List<String> distinctIncomingNames = new ArrayList<>(uniqueNamesMap.values());
+
+        List<Player> existingPlayers = playerService.findByNames(distinctIncomingNames);
 
         Set<String> existingNames = existingPlayers.stream()
                 .map(Player::getName)
+                .map(String::toLowerCase)
                 .collect(Collectors.toSet());
 
         // 2. IDENTIFY & PREPARE NEW PLAYERS
-        List<Player> newPlayers = players.stream()
-                .filter(p -> !existingNames.contains(p.getName()))
-                .peek(p -> {
-                    p.setId(null); // Critical: ensure Hibernate treats as NEW
-
-                    // Auto-detect Bank if it doesn't exist yet
-                    if ("Bank".equalsIgnoreCase(p.getName())) {
+        List<Player> newPlayers = distinctIncomingNames.stream()
+                .filter(name -> !existingNames.contains(name.toLowerCase()))
+                .map(name -> {
+                    Player p = new Player();
+                    p.setName(name);
+                    p.setId(null);
+                    if ("Bank".equalsIgnoreCase(name)) {
                         p.setType(PlayerType.BANK);
+                    } else if ("Bot".equalsIgnoreCase(name)) {
+                        p.setType(PlayerType.BOT);
                     } else {
                         p.setType(PlayerType.HUMAN);
                     }
+                    return p;
                 })
                 .toList();
 
         // 3. SAVE ALL NEW PLAYERS (Batch Insert)
         if (!newPlayers.isEmpty()) {
             List<Player> savedNewPlayers = playerService.saveAll(newPlayers);
-            // Combine existing list with the newly saved ones
             existingPlayers = new ArrayList<>(existingPlayers);
             existingPlayers.addAll(savedNewPlayers);
         }
@@ -101,16 +120,16 @@ public class DefaultGameService implements GameService {
             if (p.getType() == PlayerType.BANK || "Bank".equalsIgnoreCase(p.getName())) {
                 if (p.getType() != PlayerType.BANK) {
                     p.setType(PlayerType.BANK);
-                    playerService.save(p); // Persist the fix for future
+                    playerService.save(p);
                 }
                 gp.setBalance(BANK_INITIAL_BALANCE);
-            }
-            else {
+            } else {
                 gp.setBalance(startBalance);
             }
             gamePlayers.add(gp);
         }
-        gamePlayerService.saveAll(gamePlayers);
+        List<GamePlayer> savedGamePlayers = gamePlayerService.saveAll(gamePlayers);
+        savedGame.setGamePlayers(new LinkedHashSet<>(savedGamePlayers));
         return savedGame;
     }
 
@@ -137,18 +156,6 @@ public class DefaultGameService implements GameService {
 
         // Replace default separators with custom separators
         return currentDateTime.format(formatter);
-    }
-
-    private Player getOrCreatePlayer(Player player) {
-        Optional<Player> existingPlayer = playerService.findByName(player.getName());
-        log.info(String.valueOf(existingPlayer.isPresent()));
-
-        if (existingPlayer.isPresent()) {
-            return existingPlayer.get();
-        } else {
-            log.info("Creating new player: {}", player.getName());
-            return playerService.save(player);
-        }
     }
 
     @Override

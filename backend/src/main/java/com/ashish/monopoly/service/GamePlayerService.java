@@ -15,7 +15,7 @@ public interface GamePlayerService {
 
   List<GamePlayer> saveAll(List<GamePlayer> gamePlayers);
 
-  Boolean updateBalance(GamePlayer gamePlayer, Integer txnAmount, CreditDebit creditDebit);
+  void updateBalance(GamePlayer gamePlayer, Integer txnAmount, CreditDebit creditDebit);
 
   GamePlayer findByGame_IdAndPlayer(Integer game_id, Player player);
 }

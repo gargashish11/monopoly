@@ -11,18 +11,27 @@ public class TransactionConverter implements Converter<Transaction, TransactionD
 
   @Override
   public TransactionData convert(Transaction transaction) {
+    if (transaction == null) {
+      return null;
+    }
     TransactionData transactionData = new TransactionData();
     transactionData.setId(transaction.getId());
 
-    transactionData.setGame_id(transaction.getGame().getId());
+    if (transaction.getGame() != null) {
+      transactionData.setGame_id(transaction.getGame().getId());
+    }
 
     Player payer = transaction.getPayer();
-    transactionData.setPayer_id(payer.getId());
-    transactionData.setPayer_name(payer.getName());
+    if (payer != null) {
+      transactionData.setPayer_id(payer.getId());
+      transactionData.setPayer_name(payer.getName());
+    }
 
     Player payee = transaction.getPayee();
-    transactionData.setPayee_id(payee.getId());
-    transactionData.setPayee_name(payee.getName());
+    if (payee != null) {
+      transactionData.setPayee_id(payee.getId());
+      transactionData.setPayee_name(payee.getName());
+    }
 
     transactionData.setAmount(transaction.getAmount());
     transactionData.setIsSuccess(transaction.getIsSuccess());

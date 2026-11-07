@@ -31,18 +31,8 @@ public class TransactionController {
 
 
     @PostMapping("/add")
-    public ResponseEntity<?> createTransaction(@RequestBody TransactionData transactionData) {
-        try {
-            TransactionData savedTransaction = transactionFacade.save(transactionData);
-            return ResponseEntity.status(HttpStatus.CREATED).body(savedTransaction);
-        } catch (InsufficientBalanceException | NegativeTransactionAmountException | SameAccountTransaction e) {
-            // 3. Error Handling: Map business logic failures to 400 Bad Request
-            return ResponseEntity.badRequest().body(Map.of(
-                    "error", "Transaction Failed",
-                    "message", e.getMessage()
-            ));
-        } catch (Exception e) {
-            return ResponseEntity.internalServerError().build();
-        }
+    public ResponseEntity<TransactionData> createTransaction(@RequestBody TransactionData transactionData) {
+        TransactionData savedTransaction = transactionFacade.save(transactionData);
+        return ResponseEntity.status(HttpStatus.CREATED).body(savedTransaction);
     }
 }

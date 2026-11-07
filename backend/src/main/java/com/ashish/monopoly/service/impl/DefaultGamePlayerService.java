@@ -33,26 +33,35 @@ public class DefaultGamePlayerService implements GamePlayerService {
   }
 
   @Override
-  public Boolean updateBalance(GamePlayer gamePlayer,
+  public void updateBalance(GamePlayer gamePlayer,
                                Integer txnAmount, CreditDebit creditDebit) {
-    switch (creditDebit) {
-      case CREDIT -> {
-        gamePlayer.setBalance(gamePlayer.getBalance() + txnAmount);
-      }
-      case DEBIT -> {
-        if (txnAmount <= gamePlayer.getBalance()) {
-          gamePlayer.setBalance(gamePlayer.getBalance() - txnAmount);
-        } else {
-          throw new InsufficientBalanceException("Insufficient Balance");
-        }
+    if (gamePlayer == null) {
+      throw new IllegalArgumentException("GamePlayer cannot be null");
+    }
+    int currentBalance = gamePlayer.getBalance() != null ? gamePlayer.getBalance() : 0;
+    if (creditDebit == CreditDebit.CREDIT) {
+      gamePlayer.setBalance(currentBalance + txnAmount);
+    } else {
+      if (txnAmount <= currentBalance) {
+        gamePlayer.setBalance(currentBalance - txnAmount);
+      } else {
+        throw new InsufficientBalanceException("Insufficient Balance");
       }
     }
     gamePlayerRepository.save(gamePlayer);
-    return Boolean.TRUE;
   }
 
   @Override
   public GamePlayer findByGame_IdAndPlayer(Integer game_id, Player player) {
-    return gamePlayerRepository.findByGame_IdAndPlayer(game_id, player);
+    if (game_id == null || player == null) {
+      return null;
+    }
+    if (player.getId() != null) {
+      return gamePlayerRepository.findByGame_IdAndPlayer(game_id, player);
+    }
+    if (player.getName() != null && !player.getName().trim().isEmpty()) {
+      return gamePlayerRepository.findByGame_IdAndPlayer_NameIgnoreCase(game_id, player.getName().trim());
+    }
+    return null;
   }
 }

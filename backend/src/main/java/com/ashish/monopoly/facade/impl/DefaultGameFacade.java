@@ -53,9 +53,12 @@ public class DefaultGameFacade implements GameFacade {
         GameData gameData = gameConverter.convert(game);
 
         if (gameData != null && gameData.getTransactions() != null) {
-            Comparator<TransactionData> byDate = Comparator.comparing(TransactionData::getCreatedDate);
+            Comparator<TransactionData> byDate = Comparator.comparing(
+                    TransactionData::getCreatedDate,
+                    Comparator.nullsLast(Comparator.reverseOrder())
+            );
             Set<TransactionData> filteredTxns = gameData.getTransactions().stream()
-                    .sorted(byDate.reversed()) // Newest IDs first
+                    .sorted(byDate)
                     .limit(20)
                     .collect(Collectors.toCollection(LinkedHashSet::new)); // Preserves insertion order
             gameData.setTransactions(filteredTxns);
@@ -72,6 +75,9 @@ public class DefaultGameFacade implements GameFacade {
     @Override
     @Transactional
     public Boolean updateGameName(GameData gameData) {
+        if (gameData == null || gameData.getId() == null) {
+            throw new IllegalArgumentException("Game ID must be provided");
+        }
         Game existingGame = gameService.findById(gameData.getId())
                 .orElseThrow(() -> new EntityNotFoundException("Game not found"));
         existingGame.setName(gameData.getName());

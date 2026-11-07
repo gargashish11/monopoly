@@ -79,7 +79,7 @@ public class Player extends AbstractEntity {
                 payer.setPayer(this);
             }
         }
-        for (Transaction payee : this.paid) {
+        for (Transaction payee : this.received) {
             if (Objects.isNull(payee.getPayee())) {
                 payee.setPayee(this);
             }
@@ -89,8 +89,11 @@ public class Player extends AbstractEntity {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Player)) return false;
-        return this.getId() != null && this.getId().equals(((Player) o).getId());
+        if (!(o instanceof Player player)) return false;
+        if (this.getId() != null && player.getId() != null) {
+            return this.getId().equals(player.getId());
+        }
+        return this.getName() != null && player.getName() != null && this.getName().equalsIgnoreCase(player.getName());
     }
 
     @Override

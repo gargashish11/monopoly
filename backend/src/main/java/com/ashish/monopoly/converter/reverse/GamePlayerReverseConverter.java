@@ -12,16 +12,23 @@ public class GamePlayerReverseConverter implements Converter<GamePlayerData, Gam
 
   @Override
   public GamePlayer convert(GamePlayerData gamePlayerData) {
-    Game game = new Game();
-    game.setId(gamePlayerData.getGame_id());
+    if (gamePlayerData == null) {
+      return null;
+    }
     GamePlayer gamePlayer = new GamePlayer();
-    gamePlayer.setGame(game);
+    if (gamePlayerData.getGame_id() != null) {
+      Game game = new Game();
+      game.setId(gamePlayerData.getGame_id());
+      gamePlayer.setGame(game);
+    }
 
-    Player player = new Player();
-    player.setId(gamePlayerData.getPlayer_id());
-    player.setName(gamePlayerData.getPlayer_name());
-    gamePlayer.setGame(game);
-    gamePlayer.setPlayer(player);
+    if (gamePlayerData.getPlayer_id() != null || gamePlayerData.getPlayer_name() != null) {
+      Player player = new Player();
+      player.setId(gamePlayerData.getPlayer_id());
+      player.setName(gamePlayerData.getPlayer_name());
+      gamePlayer.setPlayer(player);
+    }
+
     gamePlayer.setBalance(gamePlayerData.getBalance());
     return gamePlayer;
   }

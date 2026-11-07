@@ -52,7 +52,7 @@ public class Game extends AbstractEntity {
     @PrePersist
     public void prePersist() {
         for (GamePlayer gamePlayer : this.gamePlayers) {
-            if (Objects.isNull(gamePlayer.getPlayer())) {
+            if (Objects.isNull(gamePlayer.getGame())) {
                 gamePlayer.setGame(this);
             }
         }
@@ -68,8 +68,8 @@ public class Game extends AbstractEntity {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Game)) return false;
-        return this.getId() != null && this.getId().equals(((Game) o).getId());
+        if (!(o instanceof Game game)) return false;
+        return this.getId() != null && this.getId().equals(game.getId());
     }
 
     @Override

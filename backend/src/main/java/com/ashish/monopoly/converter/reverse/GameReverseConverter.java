@@ -16,6 +16,9 @@ public class GameReverseConverter implements Converter<GameData, Game> {
 
   @Override
   public Game convert(GameData gameData) {
+    if (gameData == null) {
+      return null;
+    }
     Game game = new Game();
     game.setId(gameData.getId());
     game.setName(gameData.getName());

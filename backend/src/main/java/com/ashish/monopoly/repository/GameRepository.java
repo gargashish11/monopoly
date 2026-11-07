@@ -9,7 +9,7 @@ import java.util.Set;
 
 @Repository
 public interface GameRepository extends JpaRepository<Game, Integer> {
-  @Query("select p.id,p.name from #{#entityName} p")
+  @Query("select p.id from #{#entityName} p")
   Set<Integer> getAllIds();
 
   Set<GameProjection> findAllProjectedByIdNotNull();
